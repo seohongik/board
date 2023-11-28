@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+	
+    <mvc:annotation-driven/>
+   
+    
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <context:component-scan base-package="com.wings.board" />
+    
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/web/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="0"></property>
+    </bean>
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
+					<property name="objectMapper" ref="objectMapper"/>
+				</bean>
+				  <bean class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter">
+					<property name="objectMapper" ref="xmlMapper"/>
+				</bean>
+			</list>
+		</property>
+	</bean> 
+	<bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+	  p:indentOutput="true"
+	  p:simpleDateFormat="yyyy-MM-dd"
+	  p:modulesToInstall="com.fasterxml.jackson.module.paramnames.ParameterNamesModule"/>
+
+	<bean id="xmlMapper" parent="objectMapper" p:createXmlMapper="true"/>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000000"></property>
+		<property name="maxInMemorySize" value="1000000000"></property>
+	</bean>
+</beans>

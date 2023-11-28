@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+html,body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /*background-color: rebeccapurple;*/
+    
+}
+
+#container{
+    /*width: 50%;*/
+    padding-top: 15%;
+    /*padding-bottom: 25%;*/
+    /*padding-left: 25%;
+    padding-right: 25%;
+    height: 50%; 
+    background-color: red;*/
+
+}
+
+
+#info{
+    margin-bottom: 20px;
+}
+
+#table{
+	margin: 0 auto;
+    width: 100%;
+}
+
+#table td .rowNum{
+    
+    text-align: center;
+}
+
+#table td .hasFile{
+    
+    text-align: center;
+}
+
+th:nth-child(3){
+    width: 40%;
+}
+
+td:nth-child(3){
+    width: 50%;
+}
+
+form{
+	width:85%;
+	margin:0 auto;
+}
+
+.writerName{
+	width:200px;
+}
+p{
+	margin:10px;
+	padding:0;
+	
+}
+
+td .title .goDetailLink {
+    width: 600px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+tbody td p:nth-child(3){
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    margin: 0 ;
+    padding:0;
+}
+
+
+input[type=button]{
+    color: black;
+    margin-top: 100px;
+    height: 30px;
+}
