@@ -122,7 +122,7 @@ $(function(){
 					<c:forEach var="fileItems" items="${multiFileNameList}" varStatus="status">
 						<div>
 						 <p class=fileLink id="${status.index}"> ${fileItems.fileName}     <button data-index='${status.index}' value="${ fileItems.fileMeta}" class='file-remove'>X</button></p>
-						 <input type="hidden" id="multiFileId"    value="${fileItems.multiFileId}"/> 
+
 						</div> 
 					</c:forEach>
 				 </div>

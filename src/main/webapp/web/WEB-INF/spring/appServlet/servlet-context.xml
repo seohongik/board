@@ -9,15 +9,13 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
 	
     <mvc:annotation-driven/>
-   
-    
     <mvc:resources mapping="/resources/**" location="/resources/" />
-    <context:component-scan base-package="com.wings.board" />
+    <context:component-scan base-package="com.board.board" />
     
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/web/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
-        <property name="order" value="0"></property>
+        <property name="order" value="0"/>
     </bean>
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

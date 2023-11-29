@@ -43,8 +43,12 @@ $(function() {
 						"userId" : userId,
 						"id" : id
 					}
+			if(confirm("삭제하시겠습니까")===true){
 				    makeAjax("/board/deleteBoardData", "POST", data,"application/json");
-
+			}else{
+				let id = $("#id").val();
+				location.href ="/board/detail/"+id;
+			}
 				} else {
 					alert("권한 없음");
 				}
@@ -80,12 +84,10 @@ $(function() {
 					success : function(result) {
 						console.log(result);
 						if (result.code === 200) {
-							if(confirm("삭제하시겠습니까")){
-								let pageNum =$('#pageNum').val();
-								location.href = "/board/showAllList?pageNum="+pageNum;
-							}else{
-								
-							}
+
+							let pageNum =$('#pageNum').val();
+							location.href = "/board/showAllList?pageNum="+pageNum;
+
 						} 
 						//추가추가
 					},

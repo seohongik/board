@@ -21,10 +21,10 @@
 	  <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.wings.board.dto.BoardAuthDTO" alias="boardAuthDTO"/>
-		<typeAlias type="com.wings.board.dto.BoardCrudDTO" alias="boardCrudDTO"/>
-		<typeAlias type="com.wings.board.dto.BoardPageDTO" alias="boardPageDTO"/>
-		<typeAlias type="com.wings.board.dto.BoardValidDTO" alias="boardValidDTO"/>
+		<typeAlias type="com.board.board.dto.BoardAuthDTO" alias="boardAuthDTO"/>
+		<typeAlias type="com.board.board.dto.BoardCrudDTO" alias="boardCrudDTO"/>
+		<typeAlias type="com.board.board.dto.BoardPageDTO" alias="boardPageDTO"/>
+		<typeAlias type="com.board.board.dto.BoardValidDTO" alias="boardValidDTO"/>
 	</typeAliases>
 
 <!--
