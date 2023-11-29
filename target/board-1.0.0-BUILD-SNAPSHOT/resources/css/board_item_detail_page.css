@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+html,body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /*background-color: rebeccapurple;*/
+    
+}
+td{
+    margin: 0;
+    padding: 0;
+    /*background-color: rebeccapurple;*/ 
+}
+
+#container{
+    width: 50%;
+    padding-top: 15%;
+    /*padding-bottom: 25%;*/
+    padding-left: 25%;
+    padding-right: 25%;
+    height: 80%; 
+   /* background-color: red;*/
+}
+
+form{
+    height: inherit;
+  /*  background-color: blue;*/
+}
+
+#info{
+    margin-bottom: 20px;
+}
+
+#table{
+    margin: 0 auto;
+    width: 100%;
+    height: inherit;
+    /*text-align: center;*/
+}
+th{
+    width: 20%;
+}
+
+tr>td:nth-child(odd){
+    width: 10%;
+}
+
+tr:nth-child(4){
+    height: 45%;
+    /*background-color: wheat;*/
+}
+
+
+input[type=button]{
+    display: inline;
+    color: black;
+    width: 48%;
+    height: 30px;
+
+}
+
+table tr:nth-child(2) td{
+	text-align: left;
+}
+
+table tr:nth-last-child(1) td{
+	text-align: center;
+}
+
+textarea{
+    color: black;
+    width: 100%;
+    height: 100%;
+
+}
+
+#contentArea {
+    display: block;
+    height: 100%;
+    overflow-y:scroll;
+}
+
+
+#buttonCover {
+    margin-top:5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.preview{
+	
+	margin:10px 0px;
+}
+#title{
+	
+	/*height:80px;*/
+	
+}
