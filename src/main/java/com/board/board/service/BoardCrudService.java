@@ -1,18 +1,17 @@
 package com.board.board.service;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.board.board.dto.BoardCrudDTO;
 import com.board.board.dto.BoardPageDTO;
 import com.board.board.dto.BoardReplyDTO;
 import com.board.board.dto.BoardResDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
 
 public interface BoardCrudService {
 
@@ -42,7 +41,6 @@ public interface BoardCrudService {
 	public  List<BoardReplyDTO> showReplyMother(BoardReplyDTO boardReplyDTO);
 
 	public  List<BoardReplyDTO> showReplyChild(BoardReplyDTO boardReplyDTO);
-	public void showReplyString(StringBuilder sb,BoardReplyDTO boardReplyDTO);
 
 	void deleteReply(BoardReplyDTO boardReplyDTO, int id, int parentReplyId, int childReplyId,String div);
 

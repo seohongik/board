@@ -74,7 +74,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         return String.valueOf(boardPageDTO.calcPageNum(Integer.parseInt(rn)));
     }
 
-
+    @Transactional(readOnly = true)
     public List<BoardCrudDTO> showAllBoardDataWithPaging(String pageNumStr, String amountStr, Map<String, BoardPageDTO> pageMap) {
         int total = boardCrudDAO.readStatementCount("com.board.board.mappers.boardCrud.selectCountAll",new BoardCrudDTO());
         BoardPageDTO boardPageDTO=dataMakeBoardListWithPaging.init(pageNumStr, amountStr,total);
@@ -85,7 +85,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         return list;
 
     }
-
+    @Transactional(readOnly = true)
     public List<BoardCrudDTO> showBoardDetail(String id, String userId, Map<String, String> textMap) throws RuntimeException {
         BoardCrudDTO boardCrudDTO = new BoardCrudDTO();
         boardCrudDTO.setId(id);
@@ -139,7 +139,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
     }
 
 
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<BoardResDTO> deleteAllDataByID(BoardCrudDTO boardCrudDTODeleteParam) {
 
         Map<String, String> map = new HashMap<String, String>();
@@ -195,7 +195,6 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         int updateCtn = boardCrudDAO.updateStatement("com.board.board.mappers.boardCrud.updateBoardMasterByIdAndWriterName", boardCrudDTOText);
 
         if (updatedTimesCouldNull.isPresent()&& updatedFilesCouldNull.isPresent() && updatedTimesCouldNull.get().length != 0) {
-
 
             int multiFileId = 0;
             if (boardCrudDAO.readStatementObject("com.board.board.mappers.boardCrud.selectMaxMultiFileId", boardCrudDTOText) != null) {
@@ -298,11 +297,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
 
             boardReplyDTOText.setChildReplyId(childReplyId);
         }
-
-
         boardReplyDAO.createStatement("com.board.board.mappers.boardReply.insertReply", boardReplyDTOText);
-
-
     }
 
     public List<BoardReplyDTO> showReplyMother(BoardReplyDTO boardReplyDTO){
@@ -315,18 +310,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         return boardReplyDAO.readStatementList("com.board.board.mappers.boardReply.selectListReplyChild",boardReplyDTO);
     }
 
-
-    public void showReplyString(StringBuilder sb,BoardReplyDTO boardReplyDTO){
-
-        List<BoardReplyDTO> replyStrList=boardReplyDAO.readStatementList("com.board.board.mappers.boardReply.selectListReplyForString",boardReplyDTO);
-
-        for(BoardReplyDTO boardReplyDTO1 :replyStrList){
-
-            sb.append("작성자 :: ").append(boardReplyDTO1.getWriterName()).append(" 작성내용 ::").append(boardReplyDTO1.getContent()).append("\n");
-        }
-
-    }
-
+    @Transactional(rollbackFor = Exception.class)
     public void deleteReply(BoardReplyDTO boardReplyDTO, int id, int parentReplyId, int childReplyId, String div){
 
         dataDeleteReply.init(boardReplyDTO,id,parentReplyId,childReplyId, div);
