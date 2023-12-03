@@ -149,13 +149,13 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         log.error("psyFolder:{}",psyFolder.getPath());
         File[] files = psyFolder.listFiles();
 
-        if(files!=null) {
-            // 디렉토리 엔트리가 있으면 삭제
-            for (File entry : files) {
 
-                entry.delete();
-            }
+        // 디렉토리 엔트리가 있으면 삭제
+        for (File entry : files) {
+
+            entry.delete();
         }
+
 
 
         boardCrudDAO.deleteStatement("com.board.board.mappers.boardCrud.deleteMasterByIdAndUserId", boardCrudDTODeleteParam);
