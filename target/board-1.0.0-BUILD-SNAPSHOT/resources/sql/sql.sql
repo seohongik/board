@@ -39,3 +39,16 @@ create table board_info_m_tbl
     updatedWhen datetime default CURRENT_TIMESTAMP null,
     primary key (id, userId)
 );
+
+create table board_info_reply_tbl(
+                                     id int(11) ,
+                                     parentReplyId int(11),
+                                     childReplyId int(11)  ,
+                                     writerName varchar(6) not null,
+                                     content varchar(2000) not null,
+                                     createdBy varchar(20) not null,
+                                     createdWhen datetime null default CURRENT_TIMESTAMP,
+                                     updatedBy varchar(20) not null,
+                                     updatedWhen datetime null default CURRENT_TIMESTAMP,
+                                     constraint primary key(id,parentReplyId,childReplyId,writerName)
+);

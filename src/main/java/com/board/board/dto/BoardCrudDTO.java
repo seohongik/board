@@ -14,7 +14,6 @@ import org.apache.ibatis.type.Alias;
 @Data
 public class BoardCrudDTO {
 	private String id;
-	private String loginId;
 	private String userId;
 
 	private String title;

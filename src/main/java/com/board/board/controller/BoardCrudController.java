@@ -14,12 +14,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.board.board.dto.BoardCrudDTO;
-import com.board.board.dto.BoardPageDTO;
-import com.board.board.dto.BoardResDTO;
-import com.board.board.dto.BoardValidDTO;
+import com.board.board.dto.*;
 import com.board.board.service.BoardCrudService;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,9 +65,7 @@ public class BoardCrudController {
         
         return mnv;
     }
-    
-    
-    
+
     @RequestMapping(value = "/toWriteFromAllList", method = RequestMethod.GET)
     public ModelAndView toWriteFromAllList(HttpSession httpSession, ModelAndView mnv) {
 
@@ -97,15 +93,36 @@ public class BoardCrudController {
         	  mnv.setViewName("board_auth_page");
             return mnv;
         }
-
+		BoardReplyDTO boardReplyDTOMother = new BoardReplyDTO();
+		boardReplyDTOMother.setId(Integer.parseInt(id));
+		BoardReplyDTO boardReplyDTOChild = new BoardReplyDTO();
+		BoardReplyDTO boardReplyDTO = new BoardReplyDTO();
+		boardReplyDTO.setId(Integer.parseInt(id));
 		Map<String, String>  map = new LinkedHashMap<String, String>();
 		List<BoardCrudDTO> multiFileNameList=boardCrudService.showBoardDetail(id,userId, map);
-		String pageNum=boardCrudService.calcRn(id);
-		map.put("pageNum",pageNum);
+		List<BoardReplyDTO> replyListMother = new ArrayList<>(boardCrudService.showReplyMother(boardReplyDTOMother));
+		List<BoardReplyDTO> replyListChildList=boardCrudService.showReplyChild(boardReplyDTOChild);
+		List<BoardReplyDTO> replyListChildResultList = new ArrayList<>();
 
+		for(BoardReplyDTO boardReplyDTOM:replyListMother) {
+
+
+			for(BoardReplyDTO boardReplyDTOD:replyListChildList)
+				if(boardReplyDTOD.getId()==boardReplyDTOM.getId()&& boardReplyDTOM.getParentReplyId() ==boardReplyDTOD.getParentReplyId()) {
+					replyListChildResultList.add(boardReplyDTOD);
+				}
+		};
+
+		String pageNum=boardCrudService.calcRn(id);
+
+
+		map.put("pageNum",pageNum);
+		mnv.addObject("replyListMother", replyListMother);
+		mnv.addObject("replyListChild", replyListChildResultList);
 		mnv.addObject("multiFileNameList",multiFileNameList);
 		mnv.addObject("userIdSess",userId);
 		mnv.addObject("map", map);
+		//mnv.addObject("replyList", replyList);
 		mnv.setViewName("board_item_update_page");
 		return mnv;
 
@@ -145,7 +162,7 @@ public class BoardCrudController {
     
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public ModelAndView showBoardJoinItemRead( 
-    		@PathVariable  String id, 
+    		@PathVariable  String id,
     		HttpSession httpSession) {
 
         ModelAndView mnv = new ModelAndView();
@@ -156,15 +173,31 @@ public class BoardCrudController {
             mnv.setViewName("board_auth_page");
             return mnv;
         }
-
+		BoardReplyDTO boardReplyDTOMother = new BoardReplyDTO();
+		boardReplyDTOMother.setId(Integer.parseInt(id));
+		BoardReplyDTO boardReplyDTOChild = new BoardReplyDTO();
+		boardReplyDTOChild.setId(Integer.parseInt(id));
         Map<String, String> textMap = new LinkedHashMap<String, String>();
 		List<BoardCrudDTO> multiFileNameList=boardCrudService.showBoardDetail(id,userId, textMap);
+		List<BoardReplyDTO> replyListMother = new ArrayList<>(boardCrudService.showReplyMother(boardReplyDTOMother));
+		List<BoardReplyDTO> replyListChildList=boardCrudService.showReplyChild(boardReplyDTOChild);
+		List<BoardReplyDTO> replyListChildResultList = new ArrayList<>();
+		for(BoardReplyDTO boardReplyDTOM:replyListMother) {
+
+
+			for(BoardReplyDTO boardReplyDTOD:replyListChildList)
+				if(boardReplyDTOD.getId()==boardReplyDTOM.getId()&& boardReplyDTOM.getParentReplyId() ==boardReplyDTOD.getParentReplyId()) {
+					replyListChildResultList.add(boardReplyDTOD);
+				}
+		}
+
         String pageNum=boardCrudService.calcRn(id);
 		textMap.put("pageNum",pageNum);
-        
         mnv.addObject("multiFileNameList",multiFileNameList);
         mnv.addObject("userIdSess",userId);
         mnv.addObject("map", textMap);
+		mnv.addObject("replyListMother", replyListMother);
+		mnv.addObject("replyListChild", replyListChildResultList);
         mnv.setViewName("board_item_detail_page");
         return mnv;
 
@@ -206,7 +239,6 @@ public class BoardCrudController {
 																				    			,deleteFileCondition
 																				    			,boardCrudDTOReqParam
 																				    			,httpSession);
-
 		return updateResDtoWithResponseEntity ;
     }
 
@@ -216,6 +248,7 @@ public class BoardCrudController {
 		log.error("BoardCrudDTOReqParam:{}",boardCrudDTOReqParam);
 		String userId=(String) httpSession.getAttribute("userIdSess");
 		boardCrudDTOReqParam.setUserId(userId);
+		boardCrudService.deleteReplyAll(Integer.parseInt(boardCrudDTOReqParam.getId()));
        return  boardCrudService.deleteAllDataByID(boardCrudDTOReqParam);
     }
     
@@ -228,4 +261,37 @@ public class BoardCrudController {
     		e.printStackTrace();
     	}
     }
+
+	@RequestMapping(value = "/reply", method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<BoardResDTO> reply(@RequestBody BoardReplyDTO boardReplyDTO){
+
+        boardCrudService.makeReply(boardReplyDTO);
+
+		BoardResDTO boardResDTO = new BoardResDTO();
+		boardResDTO.setCode(200);
+		return new ResponseEntity<>(boardResDTO, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/removeReply" , method = RequestMethod.GET)
+	public String removeReply(@RequestParam int id , @RequestParam String parentReplyId , @RequestParam(defaultValue = "-1") String childReplyId ){
+
+		BoardReplyDTO boardReplyDTO = new BoardReplyDTO();
+		String div = "";
+		if(childReplyId==null){
+			div="each";
+		}else {
+			div="all";
+		}
+		boardCrudService.deleteReply(boardReplyDTO,id,Integer.parseInt(parentReplyId),Integer.parseInt(childReplyId),div);
+
+		return "redirect:/board/detail/"+id;
+	}
+
+	@RequestMapping(value = "/updateReply" , method = RequestMethod.POST)
+	public ResponseEntity<BoardResDTO> updateReply(@RequestBody BoardReplyDTO boardReplyDTOParam){
+
+		return boardCrudService.updateReply(boardReplyDTOParam);
+	}
 }

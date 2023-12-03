@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 
 @Component
 public class DataUpdateWithFile {
-
     public void init(BoardCrudDTO boardCrudDTOReq, BoardCrudDTO boardCrudDTOText , HttpSession httpSession) throws UnsupportedEncodingException {
 
         String id = new String(boardCrudDTOReq.getId().getBytes("8859_1"), "utf-8");

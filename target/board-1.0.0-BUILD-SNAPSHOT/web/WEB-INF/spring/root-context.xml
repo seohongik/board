@@ -27,14 +27,16 @@
     <bean id="boardAuthDAO" class="com.board.board.dao.BoardAuthDAO">
     	<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>  
     </bean>
+
+    <bean id="boardReplyDAO" class="com.board.board.dao.BoardReplyDAO">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+    </bean>
     
     <bean id="boardCrudDAO" class="com.board.board.dao.BoardCrudDAO">
     	<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>  
     </bean>
 
-    <bean id="sqlMaker" class="com.board.board.sqlMakerImpl.SqlMakerImpl">
-        <property name="boardCrudDAO" ref="boardCrudDAO"/>
-    </bean>
+
 
     <bean id="boardAuthService" class="com.board.board.serviceImpl.BoardAuthServiceImpl">
         <property name="boardAuthDAO" ref="boardAuthDAO"/>
@@ -47,15 +49,21 @@
     <bean id="dataMakeWithFile" class="com.board.board.dataMaker.DataMakeWithFile"/>
     <bean id="dataDeleteAllById" class="com.board.board.dataMaker.DataDeleteAllById"/>
     <bean id="dataUpdateWithFile" class="com.board.board.dataMaker.DataUpdateWithFile"/>
-
+    <bean id="dataMakeReply" class="com.board.board.dataMaker.DataMakeReply"/>
+    <bean id="dataDeleteReply" class="com.board.board.dataMaker.DataDeleteReply"/>
+    <bean id="dataUpdateReply" class="com.board.board.dataMaker.DataUpdateReply"/>
 
     <bean id="boardCrudService" class="com.board.board.serviceImpl.BoardCrudServiceImpl">
-        <constructor-arg index="0" ref="sqlMaker"/>
-        <constructor-arg index="1" ref="dataMakeBoardListWithPaging"/>
-        <constructor-arg index="2" ref="dataMakeBoardDetail"/>
-        <constructor-arg index="3" ref="dataMakeWithFile"/>
-        <constructor-arg index="4" ref="dataDeleteAllById"/>
-        <constructor-arg index="5" ref="dataUpdateWithFile"/>
+        <constructor-arg index="0" ref="boardCrudDAO"/>
+        <constructor-arg index="1" ref="boardReplyDAO"/>
+        <constructor-arg index="2" ref="dataMakeBoardListWithPaging"/>
+        <constructor-arg index="3" ref="dataMakeBoardDetail"/>
+        <constructor-arg index="4" ref="dataMakeWithFile"/>
+        <constructor-arg index="5" ref="dataDeleteAllById"/>
+        <constructor-arg index="6" ref="dataUpdateWithFile"/>
+        <constructor-arg index="7" ref="dataMakeReply"/>
+        <constructor-arg index="8" ref="dataDeleteReply"/>
+        <constructor-arg index="9" ref="dataUpdateReply"/>
     </bean>
 
 </beans>

@@ -1,7 +1,6 @@
 package com.board.board.dataMaker;
 
 import com.board.board.dto.BoardCrudDTO;
-import com.board.board.sqlMaker.SqlMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,8 +18,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class DataMakeWithFile {
-
-
     public void init(BoardCrudDTO boardCrudDTOText, BoardCrudDTO boardCrudDTOReq,
                      HttpSession httpSession) throws UnsupportedEncodingException {
 

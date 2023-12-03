@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.board.board.dto.BoardCrudDTO;
 import com.board.board.dto.BoardPageDTO;
+import com.board.board.dto.BoardReplyDTO;
 import com.board.board.dto.BoardResDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,4 +37,16 @@ public interface BoardCrudService {
 			) throws Exception;
 	public void downloadFile(HttpServletResponse response, String id, String userId, String fileName) throws UnsupportedEncodingException;
 
+	public  void makeReply(BoardReplyDTO boardReplyDTO);
+
+	public  List<BoardReplyDTO> showReplyMother(BoardReplyDTO boardReplyDTO);
+
+	public  List<BoardReplyDTO> showReplyChild(BoardReplyDTO boardReplyDTO);
+	public void showReplyString(StringBuilder sb,BoardReplyDTO boardReplyDTO);
+
+	void deleteReply(BoardReplyDTO boardReplyDTO, int id, int parentReplyId, int childReplyId,String div);
+
+	public void deleteReplyAll(int id);
+
+	ResponseEntity<BoardResDTO> updateReply(BoardReplyDTO boardReplyDTOParam);
 }

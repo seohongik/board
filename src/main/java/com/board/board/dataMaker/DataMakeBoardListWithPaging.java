@@ -2,7 +2,6 @@ package com.board.board.dataMaker;
 
 import com.board.board.dto.BoardCrudDTO;
 import com.board.board.dto.BoardPageDTO;
-import com.board.board.sqlMaker.SqlMaker;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -35,7 +34,6 @@ public class DataMakeBoardListWithPaging {
         pageMap.put("pageMaker", boardPageDTO);
 
     }
-
 
     public void hasFileData(List<BoardCrudDTO> list) {
         if(!list.isEmpty()) {

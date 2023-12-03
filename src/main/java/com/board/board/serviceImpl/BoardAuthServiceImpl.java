@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class BoardAuthServiceImpl implements BoardAuthService {
 
-
-
 	private BoardAuthDAO boardAuthDAO;
 
 	public void setBoardAuthDAO(BoardAuthDAO boardAuthDAO) {

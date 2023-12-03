@@ -13,7 +13,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <c:set var="userIdSess" value="${userIdSess}" />
 <c:set var="map" value="${map}" />
-
+<c:set var="replyListMother" value="${replyListMother}" />
+<c:set var="replyListChild" value="${replyListChild}" />
 <script>
 
 $(function(){
@@ -129,6 +130,44 @@ $(function(){
 				</td>
 			</tr>
 		</table>
+		<div>
+			<table>
+				<tr>
+					<td>
+						<label for="replyWriterName" > 댓글 작성자</label>
+						<input id="replyWriterName" name="replyWriterName" />
+						<br>
+						<label for="replyContent">댓글 내용</label>
+						<textarea id="replyContent" name="replyContent" style="width: 709px; height: 104px;"> </textarea>
+					</td>
+				</tr>
+			</table>
+			<input type="button" value="댓글 달기" id="replyBtn"/>
+		</div>
+
+		<div id="replyHere">
+
+			<c:forEach var="replyMother" items="${replyListMother}" varStatus="status">
+
+				<div  class="replyBox">
+
+					<input class="parentReplyId" name="parentReplyId" value="${replyMother.parentReplyId}" style="visibility: hidden" />
+					<div class='replyResultParentReplyIdAll' style="visibility: hidden">${replyMother.parentReplyId} </div>
+					<div class='replyResultWriterName'>작성자 :${replyMother.writerName} </div>
+					<div class='replyContentResultContent' >댓글 :${replyMother.content} </div>
+
+					<div class="replyToReplyHere" style="margin-left: 50px">
+						<c:forEach var="replyChild" items="${replyListChild}" varStatus="status2">
+							<c:if test="${(replyChild.parentReplyId eq replyMother.parentReplyId )&& replyChild.childReplyId ne 0 }">
+								<div class='replyResultWriterName'>작성자 ${replyChild.writerName}</div>
+								<div class='replyContentResultContent' >댓글: ${replyChild.content}</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+			</c:forEach>
+
+		</div>
 		
 		<div class="buttonCover">
             <input type="file" id="file-input" value="파일 버튼" />

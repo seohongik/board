@@ -8,8 +8,6 @@ import java.util.Map;
 
 @Component
 public class DataMakeBoardDetail {
-
-
     public void  init(List<BoardCrudDTO> list , Map<String, String> textMap){
 
         for (BoardCrudDTO infoAllDto:list) {

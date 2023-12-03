@@ -2,7 +2,6 @@ package com.board.board.dataMaker;
 
 import com.board.board.dto.BoardCrudDTO;
 import com.board.board.dto.BoardResDTO;
-import com.board.board.sqlMaker.SqlMaker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,6 @@ import java.util.stream.Stream;
 
 @Component
 public class DataDeleteAllById {
-
 
     public File getFolder(BoardCrudDTO boardCrudDTOText){
         File psyFolder = new File(boardCrudDTOText.getLocDrive() + File.separatorChar + boardCrudDTOText.getLocParentFolder() + File.separatorChar + boardCrudDTOText.getLocChildFolder());

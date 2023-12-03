@@ -34,8 +34,6 @@ public class BoardAuthController {
 
         return "board_auth_page";
     }
-
-
     @RequestMapping(value = "/authExecute", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE )
     @ResponseBody
     public ResponseEntity<Map<String, BoardResDTO>>  authExecute(@RequestBody BoardAuthDTO boardAuthDtoReqBody, HttpServletRequest request) {
