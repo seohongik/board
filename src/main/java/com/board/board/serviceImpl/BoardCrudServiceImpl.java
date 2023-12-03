@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -150,13 +151,14 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         File[] files = psyFolder.listFiles();
 
 
-        // 디렉토리 엔트리가 있으면 삭제
-        for (File entry : files) {
+        if(files!=null) {
+            // 디렉토리 엔트리가 있으면 삭제
+            for (File entry : files) {
 
-            entry.delete();
+                entry.delete();
+            }
+
         }
-
-
 
         boardCrudDAO.deleteStatement("com.board.board.mappers.boardCrud.deleteMasterByIdAndUserId", boardCrudDTODeleteParam);
         boardCrudDAO.deleteStatement("com.board.board.mappers.boardCrud.deleteDetailByIdAndUserId", boardCrudDTODeleteParam);
@@ -326,6 +328,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
     }
 
     @Override
+    @ResponseBody
     public ResponseEntity<BoardResDTO> updateReply(BoardReplyDTO boardReplyDTOParam) {
 
         log.error("updateReply:{}", boardReplyDTOParam);

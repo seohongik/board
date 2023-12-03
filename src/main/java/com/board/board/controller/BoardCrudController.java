@@ -290,6 +290,7 @@ public class BoardCrudController {
 	}
 
 	@RequestMapping(value = "/updateReply" , method = RequestMethod.POST)
+	@ResponseBody
 	public ResponseEntity<BoardResDTO> updateReply(@RequestBody BoardReplyDTO boardReplyDTOParam){
 
 		return boardCrudService.updateReply(boardReplyDTOParam);
