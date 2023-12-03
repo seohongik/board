@@ -13,19 +13,19 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
-public interface BoardCrudService {
+ public interface BoardCrudService {
 
-	public String calcRn(String id);
+	 String calcRn(String id);
 	
-	public List<BoardCrudDTO> showAllBoardDataWithPaging(String pageNumStr, String amountStr, Map<String, BoardPageDTO> pageMap) ;
+	 List<BoardCrudDTO> showAllBoardDataWithPaging(String pageNumStr, String amountStr, Map<String, BoardPageDTO> pageMap) ;
 	
-	public List<BoardCrudDTO> showBoardDetail(String id,String userId, Map<String, String> map);
+	 List<BoardCrudDTO> showBoardDetail(String id,String userId, Map<String, String> map);
 	
-	public void insertBoardDataWithFile(MultipartFile[] file, String[] uploadTimes, BoardCrudDTO boardCrudDTOReq, HttpSession httpSession) throws UnsupportedEncodingException ;
+	 void insertBoardDataWithFile(MultipartFile[] file, String[] uploadTimes, BoardCrudDTO boardCrudDTOReq, HttpSession httpSession) throws UnsupportedEncodingException ;
+
+	 ResponseEntity<BoardResDTO> deleteAllDataByID(BoardCrudDTO BoardCrudDTOdeleteParam);
 	
-	public ResponseEntity<BoardResDTO> deleteAllDataByID(BoardCrudDTO BoardCrudDTOdeleteParam);
-	
-	public  ResponseEntity<BoardResDTO> updateBoardWithFile(
+	 ResponseEntity<BoardResDTO> updateBoardWithFile(
 			   MultipartFile[] updateFilesWithNull
 			,  String[] updateTimesWithNull
 			,  Map<String,String>  updatedFileMapsWithNull
@@ -34,17 +34,15 @@ public interface BoardCrudService {
 			,  HttpSession httpSession
 			
 			) throws Exception;
-	public void downloadFile(HttpServletResponse response, String id, String userId, String fileName) throws UnsupportedEncodingException;
+	 void downloadFile(HttpServletResponse response, String id, String userId, String fileName) throws UnsupportedEncodingException;
 
-	public  void makeReply(BoardReplyDTO boardReplyDTO);
+	 void makeReply(BoardReplyDTO boardReplyDTO);
 
-	public  List<BoardReplyDTO> showReplyMother(BoardReplyDTO boardReplyDTO);
+	 List<BoardReplyDTO> showReplyMother(BoardReplyDTO boardReplyDTO);
 
-	public  List<BoardReplyDTO> showReplyChild(BoardReplyDTO boardReplyDTO);
+	 List<BoardReplyDTO> showReplyChild(BoardReplyDTO boardReplyDTO);
+	 void deleteReply(BoardReplyDTO boardReplyDTO, int id, int parentReplyId, int childReplyId,String div);
 
-	void deleteReply(BoardReplyDTO boardReplyDTO, int id, int parentReplyId, int childReplyId,String div);
-
-	public void deleteReplyAll(int id);
-
-	ResponseEntity<BoardResDTO> updateReply(BoardReplyDTO boardReplyDTOParam);
+	 void deleteReplyAll(int id);
+	 ResponseEntity<BoardResDTO> updateReply(BoardReplyDTO boardReplyDTOParam);
 }

@@ -120,11 +120,11 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         boardCrudDTOText.setId(selectMaxIdWithDTO.getId());
 
 
-        Map<String, String> locmap = new HashMap<String, String>();
+        Map<String, String> locmap = new HashMap<>();
         takeLocFileDrive(locmap, boardCrudDTOText);
         File psyFolder = dataMakeWithFile.makeFolder(boardCrudDTOText);
 
-        if (uploadTimeCouldNull.isPresent() && uploadTimeCouldNull.get().length != 0) {
+        if (uploadTimeCouldNull.isPresent() && uploadTimeCouldNull.get().length != 0 && mapFilesCouldNull.isPresent()) {
 
 
             for(int i=0; i<uploadTimeCouldNull.get().length; i++) {
@@ -142,16 +142,19 @@ public class BoardCrudServiceImpl implements BoardCrudService {
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<BoardResDTO> deleteAllDataByID(BoardCrudDTO boardCrudDTODeleteParam) {
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         takeLocFileDrive(map, boardCrudDTODeleteParam);
         File psyFolder = dataDeleteAllById.getFolder(boardCrudDTODeleteParam);
 
         log.error("psyFolder:{}",psyFolder.getPath());
         File[] files = psyFolder.listFiles();
 
-        // 디렉토리 엔트리가 있으면 삭제
-        for (File entry : files) {
-            entry.delete();
+        if(files!=null) {
+            // 디렉토리 엔트리가 있으면 삭제
+            for (File entry : files) {
+
+                entry.delete();
+            }
         }
 
 
@@ -173,7 +176,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         dataUpdateWithFile.init(boardCrudDTOReq, boardCrudDTOText, httpSession);
 
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         takeLocFileDrive(map, boardCrudDTOText);
         File psyFolder = dataUpdateWithFile.getFolder(boardCrudDTOText);
 
@@ -216,7 +219,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
 
     }
 
-    public void downloadFile(HttpServletResponse response, String id, String userId, String fileMeta) throws UnsupportedEncodingException {
+    public void downloadFile(HttpServletResponse response, String id, String userId, String fileMeta)  {
 
 
         BoardCrudDTO boardCrudDTO = new BoardCrudDTO();
@@ -224,7 +227,7 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         boardCrudDTO.setUserId(userId);
         boardCrudDTO.setFileMeta(fileMeta);
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         takeLocFileDrive(map, boardCrudDTO);
 
 
@@ -247,8 +250,8 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         response.setHeader("Expires", "-1;");
 
         try (FileInputStream fis = new FileInputStream(downStr);
-             OutputStream out = response.getOutputStream();) {
-            int readCount = 0;
+             OutputStream out = response.getOutputStream()) {
+            int readCount=0;
             byte[] buffer = new byte[1024];
             while ((readCount = fis.read(buffer)) != -1) {
                 out.write(buffer, 0, readCount);
