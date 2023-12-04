@@ -30,24 +30,7 @@
 			preveiwFiles.innerText=noFile.replace(noFile,"파일 없음");
 		}
 
-		$("#replyBtn").click( function() {
-			let id = $('#id').val();
-			let userId = $('#userId').val();
-			let writerName = $('#replyWriterName').val();
-			let content =  $('#replyContent').val();
-			let whichBtn = "parentBtn"
 
-			let data = {
-				"id" : id,
-				"userId": userId,
-				"writerName" : writerName,
-				"content" : content,
-				"whichBtn":whichBtn,
-			}
-
-			makeAjaxReply("/board/reply", "POST", data,"application/json");
-
-		});
 
 		$("#deleteBtn").click(function() {
 			if ($("#userId").val() === $("#compareId").val()) {
@@ -110,25 +93,6 @@
 
 				}
 				//추가추가
-			},
-			error : function() {
-				alert("에러 입니다. 관리자에게 문의하세요"+ "admin@mail.com")
-			}
-		});
-
-	} //endOfAjax;
-
-	let makeAjaxReply = function(url, type, data,contentType) {
-		$.ajax({
-			url : url,
-			type : type,
-			data : JSON.stringify(data),
-			contentType : contentType,
-			success : function(result) {
-
-				if (result.code === 200) {
-					location.reload();
-				}
 			},
 			error : function() {
 				alert("에러 입니다. 관리자에게 문의하세요"+ "admin@mail.com")
@@ -204,36 +168,49 @@
 	<div id="replyHere">
 
 		<c:forEach var="replyMother" items="${replyListMother}" varStatus="status">
-
-			<div  class="replyBox">
-
+			<div  class="reReplyResult parentResult">
 				<input class="parentReplyId" name="parentReplyId" value="${replyMother.parentReplyId}" style="visibility: hidden" />
 				<input class="childReplyId" name="childReplyId" value="${ replyMother.childReplyId}"  style="visibility: hidden"/>
 				<div class='replyResultParentReplyIdAll' style="visibility: hidden">${replyMother.parentReplyId} </div>
 				작성자 :<input class='replyResultWriterName' name="replyResultWriterName" readonly="readonly" value="${replyMother.writerName}"/>
 				<textarea class='replyResultContent' name="replyResultContent" readonly="readonly">${replyMother.content} </textarea>
-				<button class="unfoldReplyWindow"> 답글 창 열기</button>
-				<button class="foldReplyWindow"> 답글 창 접기</button>
+				<button class="unfoldReplyWindowBtn"> 답글 창 열기</button>
+				<button class="foldReplyWindowBtn"> 답글 창 접기</button>
 				<button class="removeReply"  onclick="function removeReply(){location.href='/board/removeReply?id=${replyMother.id}&parentReplyId=${replyMother.parentReplyId}&childReplyId='}removeReply()">댓글 삭제</button>
 
 				<br>
 				<button class="updateReply">수정하러가기</button>
-				<button class="sendUpdateReply">댓글 수정</button>
+				<button class="sendUpdateReplyParent">부모 댓글 수정</button>
+			</div>
+			<div class="replyToReplyHere childResult" style="margin-left: 50px">
+				<c:forEach var="replyChild" items="${replyListChild}" varStatus="status2">
+					<c:if test="${(replyChild.parentReplyId eq replyMother.parentReplyId )&& replyChild.childReplyId ne 0 }">
+						<input class="parentReplyId" name="parentReplyId" value="${ replyChild.parentReplyId}"  style="visibility: hidden"/>
+						<input class="childReplyId" name="childReplyId" value="${ replyChild.childReplyId}"  style="visibility: hidden"/>
+						작성자:<input class='replyResultWriterName' name="replyResultWriterName" readonly="readonly"  value="${replyChild.writerName}">
+						<textarea class='replyResultContent' name="replyResultContent" readonly="readonly"> ${replyChild.content}</textarea>
+						<button class="removeReply" onclick="function removeReply(){location.href='/board/removeReply?id=${replyChild.id}&parentReplyId=${replyChild.parentReplyId}&childReplyId=${replyChild.childReplyId}'}removeReply()" >댓글 삭제</button>
+						<button class="updateReply">수정하러가기</button>
+						<button class="sendUpdateReplyChild">자식 댓글 수정</button>
+					</c:if>
 
-				<div class="replyToReplyHere" style="margin-left: 50px">
-					<c:forEach var="replyChild" items="${replyListChild}" varStatus="status2">
-						<c:if test="${(replyChild.parentReplyId eq replyMother.parentReplyId )&& replyChild.childReplyId ne 0 }">
-							<input class="childReplyId" name="childReplyId" value="${ replyChild.childReplyId}"  style="visibility: hidden"/>
-							작성자:<input class='replyResultWriterName' name="replyResultWriterName" readonly="readonly"  value="${replyChild.writerName}">
-							<textarea class='replyResultContent' name="replyResultContent" readonly="readonly"> ${replyChild.content}</textarea>
-							<button class="removeReply" onclick="function removeReply(){location.href='/board/removeReply?id=${replyChild.id}&parentReplyId=${replyChild.parentReplyId}&childReplyId=${replyChild.childReplyId}'}removeReply()" >댓글 삭제</button>
-							<button class="updateReply">수정하러가기</button>
-							<button class="sendUpdateReply">댓글 수정</button>
-						</c:if>
-					</c:forEach>
-				</div>
+				</c:forEach>
+
+			</div>
+
+			<div class="initReReply" style="display:none;">
+				<input class="parentReplyId" name="parentReplyId" value="${replyMother.parentReplyId}"  style="visibility: hidden"/>
+				<input class="childReplyId" name="childReplyId" value="${replyMother.childReplyId}"  style="visibility: hidden"/>
+				<label >댓글 작성자</label>
+				<input class="replyResultWriterName" name='replyResultWriterName'/>
+				<br>
+				<label >댓글 내용</label>
+				<textarea class="replyResultContent" name='replyResultContent' style='width: 709px; height: 104px;'> </textarea>
+				<input type='button' class='makeReReplyBtn' value='댓댓글 달기' >
 			</div>
 		</c:forEach>
+
+
 
 	</div>
 
@@ -244,56 +221,61 @@
 	</div>
 </div>
 <script>
+	$("#replyBtn").click( function() {
+		let id = $('#id').val();
+		let userId = $('#userId').val();
+		let writerName = $('#replyWriterName').val();
+		let content =  $('#replyContent').val();
+		let whichBtn = "init"
 
-	document.querySelectorAll(".unfoldReplyWindow").forEach((value, key)=>{
-		document.querySelectorAll(".unfoldReplyWindow")[key].addEventListener("click",()=>{
-			let inHtml="";
-			inHtml += "<label >댓글 작성자</label>"
-			inHtml += "<input id='replyReResultWriterName' name='replyReResultWriterName'/>"
-			inHtml += "<br>"
-			inHtml += "<label >댓글 내용</label>"
-			inHtml += "<textarea id='replyReResultContent' name='replyReResultContent' style='width: 709px; height: 104px;'> </textarea>"
-			inHtml += "<input type='button' id='makeReReplyBtn' value='댓댓글 달기' >"
+		let data = {
+			"id" : id,
+			"userId": userId,
+			"writerName" : writerName,
+			"content" : content,
+			"whichBtn":whichBtn,
+		}
 
-			document.querySelectorAll(".replyToReplyHere")[key].innerHTML = inHtml;
-
-			document.querySelectorAll(".replyToReplyHere")[key].style.visibility="visible";
-
-			document.querySelector("#makeReReplyBtn").addEventListener("click", (e) => {
-
-				let parentReplyId = $($("input[name=parentReplyId]").eq([key])).val();
-				let id = $('#id').val();
-				let userId = $('#userId').val();
-				let writerName = $($('input[name=replyReResultWriterName]').eq([key])).val();
-				let content = $($('textarea[name=replyReResultContent]').eq([key])).val();
-				let whichBtn = "childrenBtn"
-
-				let data = {
-					"id": id,
-					"parentReplyId": parentReplyId,
-					"userId": userId,
-					"writerName": writerName,
-					"content": content,
-					"whichBtn": whichBtn,
-
-				}
-
-				makeAjaxReply("/board/reply", "POST", data, "application/json");
-
-			});
-
-		});
+		makeAjaxReply("/board/reply", "POST", data,"application/json");
 
 	});
 
-	document.querySelectorAll(".foldReplyWindow").forEach((value, key)=>{
+	const unfoldReplyToWriteWindow=document.querySelectorAll(".unfoldReplyWindowBtn");
 
-		document.querySelectorAll(".foldReplyWindow")[key].addEventListener("click",()=>{
+	for(let i=0; i<unfoldReplyToWriteWindow.length; i++) {
 
-			document.querySelectorAll(".replyToReplyHere")[key].style.visibility="hidden";
+		const btn = unfoldReplyToWriteWindow[i];
+		btn.onclick = () => {
 
-		});
-	});
+			const initReReply=document.getElementsByClassName("initReReply");
+			const replyToReplyHere=document.getElementsByClassName("replyToReplyHere");
+
+			//for(let j=0; j<reReplyWindow.length; j++) {
+
+			initReReply.item(i).style.display = "block";
+
+			//}
+
+		};
+	}
+
+
+	const foldReplyNotToWriteWindowBtn=document.querySelectorAll(".foldReplyWindowBtn");
+
+	for(let i=0; i<foldReplyNotToWriteWindowBtn.length; i++){
+
+		const btn = foldReplyNotToWriteWindowBtn[i];
+		btn.onclick=()=> {
+
+			const reReplyWindow=document.getElementsByClassName("initReReply");
+
+			if(reReplyWindow.item(i).style.display === "block"){
+
+				reReplyWindow.item(i).style.display="none"
+			}
+
+		}
+	}
 
 	$(".updateReply").click(function (){
 
@@ -302,14 +284,41 @@
 
 	})
 
-	$(".replyResultWriterName").each(function (index,item){
 
-		$($(".sendUpdateReply")[index]).click(function (){
+	$(".initReReply").each(function (index,item){
+
+		$($(".makeReReplyBtn")[index]).click(function (e){
+
+				let id = $("#id").val();
+				let userId = $('#userId').val();
+				let parentReplyId = $($(".initReReply input[name=parentReplyId]").eq(index)).val();
+				let childReplyId = $($(".initReReply input[name=childReplyId]").eq(index)).val();
+				let writerName = $($(".initReReply input[name=replyResultWriterName]").eq(index)).val();
+				let content = $($(".initReReply textarea[name=replyResultContent]").eq(index)).val();
+				let whichBtn = "reReply"
+				let data = {
+					"id": id,
+					"parentReplyId": parentReplyId,
+					"childReplyId": childReplyId,
+					"writerName": writerName,
+					"content": content,
+					"whichBtn": whichBtn,
+					"userId": userId,
+				}
+
+				makeAjaxReply("/board/reply", "POST", data, "application/json");
+		})
+	});
+	$(".parentResult input[name=replyResultWriterName]").each(function (index,item){
+
+
+		$($(".sendUpdateReplyParent")[index]).click(function (){
+
 			let id = $("#id").val();
-			let parentReplyId = $($("input[name=parentReplyId]").eq(index)).val();
-			let childReplyId =  $($("input[name=childReplyId]").eq(index)).val();
-			let writerName = $($("input[name=replyResultWriterName]").eq(index)).val();
-			let content = $($("textarea[name=replyResultContent]").eq(index)).val();
+			let parentReplyId = $($(".parentResult input[name=parentReplyId]").eq(index)).val();
+			let childReplyId =  $($(".parentResult input[name=childReplyId]").eq(index)).val();
+			let writerName = $($(".parentResult input[name=replyResultWriterName]").eq(index)).val();
+			let content = $($(".parentResult textarea[name=replyResultContent]").eq(index)).val();
 
 			let data = {
 				"id":id,
@@ -320,9 +329,52 @@
 			}
 
 			makeAjaxReply("/board/updateReply", "POST", data, "application/json");
-		})
+		});
+	})
 
-	});
+
+	$(".childResult input[name=replyResultWriterName]").each(function (index,item){
+
+
+		$($(".sendUpdateReplyChild")[index]).click(function (){
+
+			let id = $("#id").val();
+			let parentReplyId = $($(".childResult input[name=parentReplyId]").eq(index)).val();
+			let childReplyId =  $($(".childResult input[name=childReplyId]").eq(index)).val();
+			let writerName = $($(".childResult input[name=replyResultWriterName]").eq(index)).val();
+			let content = $($(".childResult textarea[name=replyResultContent]").eq(index)).val();
+
+			let data = {
+				"id":id,
+				"parentReplyId":parentReplyId,
+				"childReplyId":childReplyId,
+				"writerName":writerName,
+				"content":content,
+			}
+
+			makeAjaxReply("/board/updateReply", "POST", data, "application/json");
+		});
+	})
+
+	let makeAjaxReply = function(url, type, data,contentType) {
+		$.ajax({
+			url : url,
+			type : type,
+			data : JSON.stringify(data),
+			contentType : contentType,
+			success : function(result) {
+
+				if (result.code === 200) {
+					alert("댓글 갱신에 성공 했습니다.")
+					location.reload();
+				}
+			},
+			error : function() {
+				alert("에러 입니다. 관리자에게 문의하세요"+ "admin@mail.com")
+			}
+		});
+
+	} //endOfAjax;
 </script>
 </body>
 </html>

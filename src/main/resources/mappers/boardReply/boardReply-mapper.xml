@@ -5,7 +5,7 @@
 <mapper namespace="com.board.board.mappers.boardReply">
 
 	<select id="selectMaxReplyChildId"  parameterType="boardReplyDTO" resultType="int">
- 		SELECT max(childReplyId) as childReplyId FROM board_info_reply_tbl  WHERE id = #{id} and parentReplyId =#{parentReplyId} and childReplyId = #{childReplyId}
+ 		SELECT max(childReplyId) as childReplyId FROM board_info_reply_tbl  WHERE id = #{id} and parentReplyId =#{parentReplyId}
     </select>
     <select id="selectMaxParentReplyId"  parameterType="boardReplyDTO" resultType="int">
         SELECT max(parentReplyId) as parentReplyId FROM board_info_reply_tbl  WHERE id = #{id}
@@ -22,7 +22,7 @@
     <select id="selectListReplyForString"  parameterType="boardReplyDTO" resultType="boardReplyDTO" >
 
         SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId
-        from (SELECT d.id, lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as content , lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as writerName , ro , d.parentReplyId
+        from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as */content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ writerName , ro , d.parentReplyId
               from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
                    from board_info_reply_tbl a
                   )d
@@ -37,7 +37,7 @@
 
 
         SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId
-        from (SELECT d.id, lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as content , lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as writerName , ro , d.parentReplyId
+        from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/ d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ d.writerName , ro , d.parentReplyId
               from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
                    from board_info_reply_tbl a
                   )d
@@ -49,7 +49,7 @@
     </select>
     <select id="selectListReplyMother"  parameterType="boardReplyDTO" resultType="boardReplyDTO" >
     SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId , e.childReplyId
-    from (SELECT d.id, lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as content , lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as writerName , ro , d.parentReplyId , d.childReplyId
+    from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ d.writerName , ro , d.parentReplyId , d.childReplyId
     from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
     from board_info_reply_tbl a
     )d
@@ -62,7 +62,7 @@
     </select>
     <select id="selectListReplyChild"  parameterType="boardReplyDTO" resultType="boardReplyDTO" >
         SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId , e.childReplyId
-        from (SELECT d.id, lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as content , lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as writerName , ro , d.parentReplyId , d.childReplyId
+        from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/ d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/d.writerName , ro , d.parentReplyId , d.childReplyId
               from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
                    from board_info_reply_tbl a
                   )d

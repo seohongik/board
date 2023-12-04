@@ -147,7 +147,6 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         takeLocFileDrive(map, boardCrudDTODeleteParam);
         File psyFolder = dataDeleteAllById.getFolder(boardCrudDTODeleteParam);
 
-        log.error("psyFolder:{}",psyFolder.getPath());
         File[] files = psyFolder.listFiles();
 
 
@@ -277,27 +276,26 @@ public class BoardCrudServiceImpl implements BoardCrudService {
         boardCrudDTO.setLocParentFolder(locParentFolder);
         boardCrudDTO.setLocChildFolder(locChildFolder);
     }
-
+    @Transactional(rollbackFor = Exception.class)
     public void makeReply(BoardReplyDTO boardReplyDTOParam){
 
         BoardReplyDTO boardReplyDTOText = new BoardReplyDTO();
 
         dataMakeReply.init(boardReplyDTOParam, boardReplyDTOText);
 
-        if("parentBtn".equals(boardReplyDTOParam.getWhichBtn())){
+        if("init".equals(boardReplyDTOParam.getWhichBtn())){
             int parentReplyId = 0;
 
             if (boardReplyDAO.readStatementObject("com.board.board.mappers.boardReply.selectMaxParentReplyId", boardReplyDTOText) != null) {
                 parentReplyId = (int) boardReplyDAO.readStatementObject("com.board.board.mappers.boardReply.selectMaxParentReplyId", boardReplyDTOText) +1;
-
             }
             boardReplyDTOText.setParentReplyId(parentReplyId);
 
-        }else if("childrenBtn".equals(boardReplyDTOParam.getWhichBtn())) {
+        }else if("reReply".equals(boardReplyDTOParam.getWhichBtn())) {
             boardReplyDTOText.setParentReplyId(boardReplyDTOParam.getParentReplyId());
-            int childReplyId = 0;
+            int childReplyId=0;
             if (boardReplyDAO.readStatementObject("com.board.board.mappers.boardReply.selectMaxReplyChildId", boardReplyDTOText) != null) {
-                childReplyId = (int) boardReplyDAO.readStatementObject("com.board.board.mappers.boardReply.selectMaxReplyChildId", boardReplyDTOText)+1;
+                childReplyId = (int) boardReplyDAO.readStatementObject("com.board.board.mappers.boardReply.selectMaxReplyChildId", boardReplyDTOText) +1;
             }
 
             boardReplyDTOText.setChildReplyId(childReplyId);
@@ -329,9 +327,9 @@ public class BoardCrudServiceImpl implements BoardCrudService {
 
     @Override
     @ResponseBody
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<BoardResDTO> updateReply(BoardReplyDTO boardReplyDTOParam) {
 
-        log.error("updateReply:{}", boardReplyDTOParam);
         BoardReplyDTO boardReplyDTO = new BoardReplyDTO();
         dataUpdateReply.init(boardReplyDTO,boardReplyDTOParam);
 

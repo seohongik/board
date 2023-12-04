@@ -289,7 +289,7 @@ public class BoardCrudController {
 		return "redirect:/board/detail/"+id;
 	}
 
-	@RequestMapping(value = "/updateReply" , method = RequestMethod.POST)
+	@RequestMapping(value = "/updateReply" , method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<BoardResDTO> updateReply(@RequestBody BoardReplyDTO boardReplyDTOParam){
 
