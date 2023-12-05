@@ -216,7 +216,16 @@ public class BoardCrudServiceImpl implements BoardCrudService {
 
         }
 
-        return dataUpdateWithFile.isStatus(updateCtn, boardResDTO);
+        if (updateCtn != 1) {
+            boardResDTO.setCode(500);
+            boardResDTO.setResDescription("fail");
+            return new ResponseEntity<BoardResDTO>(boardResDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        boardResDTO.setCode(200);
+        boardResDTO.setResDescription("OK");
+        return new ResponseEntity<BoardResDTO>(boardResDTO, HttpStatus.OK);
+
 
     }
 

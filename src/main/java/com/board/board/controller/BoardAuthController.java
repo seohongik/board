@@ -26,8 +26,12 @@ import org.springframework.web.context.annotation.RequestScope;
 @Controller
 public class BoardAuthController {
 
-    @Autowired
+
     public BoardAuthService boardAuthService;
+    @Autowired
+    public void setBoardAuthService(BoardAuthService boardAuthService) {
+        this.boardAuthService = boardAuthService;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Locale locale, Model model) {

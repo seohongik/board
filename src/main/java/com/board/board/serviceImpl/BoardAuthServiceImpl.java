@@ -43,13 +43,13 @@ public class BoardAuthServiceImpl implements BoardAuthService {
 		if(returnList.isEmpty() || !returnList.get(0).getUserId().equals(boardAuthDtoReqBody.getUserId())) {
 	            
 	            BoardResDTO failAuthDTO = new BoardResDTO();
-	            failAuthDTO.setResContent("it not present or you are wrong");
+	            failAuthDTO.setResDescription("it not present or you are wrong");
 	            failAuthDTO.setCode(400);
 	            resultMap.put("result", failAuthDTO);
 	            return resultMap;
 	    }
 		BoardResDTO successAuthDTO = new BoardResDTO();
-		successAuthDTO.setResContent(" you are correct ");
+		successAuthDTO.setResDescription(" you are correct ");
 		successAuthDTO.setCode(200);
         resultMap.put("result", successAuthDTO);
 		return resultMap;

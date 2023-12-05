@@ -26,12 +26,12 @@ public class DataDeleteAllById {
         if (selectByIdAfterDelete.isEmpty()) {
             BoardResDTO sucessBoardResDTO = new BoardResDTO();
             sucessBoardResDTO.setCode(200);
-            sucessBoardResDTO.setResContent("success");
+            sucessBoardResDTO.setResDescription("success");
             return new ResponseEntity<BoardResDTO>(sucessBoardResDTO, HttpStatus.OK);
         } else {
             BoardResDTO failBoardResDTO = new BoardResDTO();
             failBoardResDTO.setCode(500);
-            failBoardResDTO.setResContent("fail");
+            failBoardResDTO.setResDescription("update fail");
             return new ResponseEntity<BoardResDTO>(failBoardResDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

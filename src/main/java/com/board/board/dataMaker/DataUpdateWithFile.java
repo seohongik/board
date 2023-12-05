@@ -92,18 +92,6 @@ public class DataUpdateWithFile {
         }
     }*/
 
-    public ResponseEntity<BoardResDTO> isStatus(int updateCtn, BoardResDTO boardResDTO){
-
-        if (updateCtn != 1) {
-            boardResDTO.setCode(500);
-            boardResDTO.setResContent("fail");
-            return new ResponseEntity<BoardResDTO>(boardResDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        boardResDTO.setCode(200);
-        boardResDTO.setResContent("OK");
-        return new ResponseEntity<BoardResDTO>(boardResDTO, HttpStatus.OK);
-    }
 
     public File getFolder(BoardCrudDTO boardCrudDTOText){
         File psyFolder = new File(boardCrudDTOText.getLocDrive() + File.separatorChar + boardCrudDTOText.getLocParentFolder() + File.separatorChar + boardCrudDTOText.getLocChildFolder());

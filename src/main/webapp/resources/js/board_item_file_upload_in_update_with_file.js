@@ -84,7 +84,7 @@ let formDataUploadTime = new FormData();
 
   $(function(){
 
-    $('#updateBtn').on("click",function(){
+    $('#updateBtn').on("click", function (message){
     
     	  const textData=  {
     	    	"writerName":$('#writerName').val(),
@@ -119,8 +119,8 @@ let formDataUploadTime = new FormData();
     	        url: "/board/updateBoardDataWithFile",  
     	        type : "POST",
     	        data :  realSendFormDataWithFile,  
-    	        contentType : false,
-        		processData : false,
+    	        contentType:false,
+				processData:false,
     	        success: function (result) { 
 		        	if(result.code==200){
 		        		alert("글 작성이 완료되었습니다.");
@@ -128,13 +128,13 @@ let formDataUploadTime = new FormData();
 		        		let pageNum=$("#pageNum").val();
 		        		
 		        		location.href='/board/showAllList?pageNum='+pageNum;
-		        	}else if(result.code==400){
-		        		alert('입력값 항목을 확인해 주세요');
 		        	}
     	        },          
-    	        error: function (e) {  
-    	        	console.log("ERROR : ", e);
-    	        	alert('관리자에게 문의 해주세요 admin@mail.com')
+    	        error: function (error) {
+
+					//400 에러만 처리 나중에 코드가 생길시 더 추가
+					alert(error.responseJSON.resDescription.replace(',',"\\n"));
+
     	         }     
     		});
     	    

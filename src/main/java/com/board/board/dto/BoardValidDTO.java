@@ -6,26 +6,27 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Alias("boardValidDTO")
 public class BoardValidDTO {
 
 	
 	private BoardCrudDTO boardCrudDTO;
-	private String result;
-	
 
+	public BoardValidDTO( BoardCrudDTO boardCrudDTO){
+
+		this.boardCrudDTO = boardCrudDTO;
+
+	}
 	
 	public String getWriterName() {
-		return getBoardCrudDTO().getWriterName();
+		return boardCrudDTO.getWriterName();
 	}
 	
 	public String getContent() {
-		return getBoardCrudDTO().getContent();
+		return boardCrudDTO.getContent();
 	}
-	public String getTitle() {
-		return getBoardCrudDTO().getTitle();
+	public String getTitle() {return boardCrudDTO.getTitle();
 	}
 	
 	

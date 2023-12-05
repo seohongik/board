@@ -104,24 +104,22 @@ let formDataUploadTime = new FormData();
     	    
     	    
     	       $.ajax({             
-    	        url: "/board/insertBoardDataWithFile",  
-    	        type : "POST",
-    	        data :  realSendFormDataWithFile,  
-    	        contentType : false,
-        		processData : false,
-    	        success: function (result) { 
-    	        
-		        	if(result.code==200){
-		        		alert("글 작성이 완료되었습니다.");
-		        		location.href='/board/showAllList?pageNum=1';
-		        	}else if(result.code==400){
-		        		alert('입력값 항목을 확인해 주세요');
-		        	}
-    	        },          
-    	        error: function (e) {  
-    	        	console.log("ERROR : ", e);
-    	        	alert('관리자에게 문의 해주세요 admin@mail.com')
-    	         }     
+    	            url: "/board/insertBoardDataWithFile",
+    	            type : "POST",
+    	            data :  realSendFormDataWithFile,
+    	            contentType:false,
+                    processData:false,
+                success: function (result) {
+
+                    if(result.code===200){
+                        alert("글 작성이 완료되었습니다.");
+                        location.href='/board/showAllList?pageNum=1';
+                    }
+                },
+                error: function (error) {
+                    //console.dir(error)
+                    alert(error.responseJSON.resDescription.replace(',',"\\n"));
+                 }
     		});
     	    
     	});

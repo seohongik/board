@@ -236,7 +236,7 @@
 			"whichBtn":whichBtn,
 		}
 
-		makeAjaxReply("/board/reply", "POST", data,"application/json");
+		makeAjaxReply("/board/makeReply", "POST", data,"application/json");
 
 	});
 
@@ -306,7 +306,7 @@
 					"userId": userId,
 				}
 
-				makeAjaxReply("/board/reply", "POST", data, "application/json");
+				makeAjaxReply("/board/makeReply", "POST", data, "application/json");
 		})
 	});
 	$(".parentResult input[name=replyResultWriterName]").each(function (index,item){
