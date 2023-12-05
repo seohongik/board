@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
 public class DataMakeWithFile {
     public void init(BoardCrudDTO boardCrudDTOText, BoardCrudDTO boardCrudDTOReq,
                      HttpSession httpSession) throws UnsupportedEncodingException {

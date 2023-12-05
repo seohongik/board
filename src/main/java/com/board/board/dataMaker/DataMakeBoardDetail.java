@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-@Component
 public class DataMakeBoardDetail {
     public void  init(List<BoardCrudDTO> list , Map<String, String> textMap){
 

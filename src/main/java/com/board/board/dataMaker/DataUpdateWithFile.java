@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
 public class DataUpdateWithFile {
     public void init(BoardCrudDTO boardCrudDTOReq, BoardCrudDTO boardCrudDTOText , HttpSession httpSession) throws UnsupportedEncodingException {
 

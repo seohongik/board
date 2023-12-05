@@ -11,8 +11,6 @@
         SELECT max(parentReplyId) as parentReplyId FROM board_info_reply_tbl  WHERE id = #{id}
     </select>
 
-
-
     <insert id="insertReply"  parameterType="boardReplyDTO" >
         INSERT  INTO  board_info_reply_tbl
         (id , parentReplyId , childReplyId ,writerName , content ,createdBy  , updatedBy  )
