@@ -54,7 +54,7 @@ let formDataUploadTime = new FormData();
 		
 		        
 		        Array.from(files)
-		            .filter(file => file.lastModified != removeTargetId)
+		            .filter(file => file.lastModified !== removeTargetId)
 		            .forEach(file => {
 		             dataTransfer.items.add(file);
 		         });
@@ -84,7 +84,7 @@ let formDataUploadTime = new FormData();
 
   $(function(){
 
-    $('#updateBtn').on("click", function (message){
+    $('#updateBtn').on("click", function (){
     
     	  const textData=  {
     	    	"writerName":$('#writerName').val(),
@@ -122,7 +122,7 @@ let formDataUploadTime = new FormData();
     	        contentType:false,
 				processData:false,
     	        success: function (result) { 
-		        	if(result.code==200){
+		        	if(result.code===200){
 		        		alert("글 작성이 완료되었습니다.");
 		        		
 		        		let pageNum=$("#pageNum").val();
@@ -133,7 +133,7 @@ let formDataUploadTime = new FormData();
     	        error: function (error) {
 
 					//400 에러만 처리 나중에 코드가 생길시 더 추가
-					alert(error.responseJSON.resDescription.replace(',',"\\n"));
+					alert(error.responseJSON.resDescription);
 
     	         }     
     		});

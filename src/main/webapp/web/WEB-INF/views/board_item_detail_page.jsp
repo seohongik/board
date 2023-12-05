@@ -150,6 +150,11 @@
 			</td>
 		</tr>
 	</table>
+	<input type="hidden" name="compareId" id="compareId" value="${userIdSess}" />
+	<div id="buttonCover">
+		<input type="button" value="글 수정 하러 가기 버튼" id="toUpdateBtn" />
+		<input type="button" value="글 삭제 버튼" id="deleteBtn" />
+	</div>
 	<div>
 		<table>
 			<tr>
@@ -164,6 +169,7 @@
 		</table>
 		<input type="button" value="댓글 달기" id="replyBtn"/>
 	</div>
+
 
 	<div id="replyHere">
 
@@ -214,11 +220,7 @@
 
 	</div>
 
-	<input type="hidden" name="compareId" id="compareId" value="${userIdSess}" />
-	<div id="buttonCover">
-		<input type="button" value="글 수정 버튼" id="toUpdateBtn" />
-		<input type="button" value="글 삭제 버튼" id="deleteBtn" />
-	</div>
+
 </div>
 <script>
 	$("#replyBtn").click( function() {

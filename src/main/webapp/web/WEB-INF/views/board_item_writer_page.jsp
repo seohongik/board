@@ -43,10 +43,10 @@
 		
 		<div class="buttonCover">
             <input type="file" id="file-input" value="파일 버튼" />
-        </div> 	
-		   <div class="buttonCover">
-           		 <input type="button" value="글 등록 버튼" id="submitbtn" />
-       		</div>        
+        </div>
+	   <div class="buttonCover">
+			 <input type="button" value="글 등록 버튼" id="submitbtn" />
+	   </div>
         	
 	</div>
 </body>

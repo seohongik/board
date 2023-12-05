@@ -47,7 +47,7 @@ let formDataUploadTime = new FormData();
 
         
         Array.from(files)
-            .filter(file => file.lastModified != removeTargetId)
+            .filter(file => file.lastModified !== removeTargetId)
             .forEach(file => {
              dataTransfer.items.add(file);
          });
@@ -75,7 +75,7 @@ let formDataUploadTime = new FormData();
 
   $(function(){
 
-    $('#submitbtn').on("click",function(e){
+    $('#submitbtn').on("click",function(){
                  
           const realSendFormDataWithFile = new FormData();
     	 

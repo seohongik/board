@@ -130,6 +130,12 @@ $(function(){
 				</td>
 			</tr>
 		</table>
+
+		<input type="hidden" name="compareId" id="compareId"
+			   value="${userIdSess}" />
+		<div id="buttonCover">
+			<input type="button" value="글 수정 버튼" id="updateBtn" />
+		</div>
 		<div>
 			<table>
 				<tr>
@@ -143,6 +149,10 @@ $(function(){
 				</tr>
 			</table>
 			<input type="button" value="댓글 달기" id="replyBtn"/>
+		</div>
+
+		<div class="buttonCover">
+			<input type="file" id="file-input" value="파일 버튼" />
 		</div>
 
 		<div id="replyHere">
@@ -166,18 +176,6 @@ $(function(){
 					</div>
 				</div>
 			</c:forEach>
-
-		</div>
-		
-		<div class="buttonCover">
-            <input type="file" id="file-input" value="파일 버튼" />
-        </div>
-		
-		<input type="hidden" name="compareId" id="compareId"
-			value="${userIdSess}" />
-		<div id="buttonCover">
-			<input type="button" value="글 수정 버튼" id="updateBtn" />
-		</div>
 		<!--  </form> -->
 	</div>
 </body>
