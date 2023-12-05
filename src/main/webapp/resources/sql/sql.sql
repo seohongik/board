@@ -50,5 +50,5 @@ create table board_info_reply_tbl(
                                      createdWhen datetime null default CURRENT_TIMESTAMP,
                                      updatedBy varchar(20) not null,
                                      updatedWhen datetime null default CURRENT_TIMESTAMP,
-                                     constraint primary key(id,parentReplyId,childReplyId,writerName)
+                                     constraint primary key(id,parentReplyId,childReplyId,updatedWhen)
 );
