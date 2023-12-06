@@ -57,11 +57,11 @@
     
     <select id="selectMaxMultiFileId" parameterType="boardCrudDTO" resultType="_int">
         select max(d.multiFileId) as multiFileId
-        from board_info_m_tbl m
-                 join board_info_d_tbl d
-                      on m.id = d.id
-        where m.id = #{id}
-          and  m.userId  = #{userId}
+          FROM board_info_m_tbl m
+          JOIN board_info_d_tbl d
+            ON m.id = d.id
+         WHERE m.id = #{id}
+           AND  m.userId  = #{userId}
     </select>
     
     <select id="selectFileDataById" parameterType="boardCrudDTO" resultType="boardCrudDTO">
@@ -95,8 +95,8 @@
     
      <select id="selectJoinDataByIdAndMultiFileId" parameterType="boardCrudDTO" resultType="boardCrudDTO">
         select  m.id as id ,m.userId  , m.title , m.writerName  , m.content ,m.updatedWhen  , d.multiFileId , d.locDrive, d.locParentFolder, d.locChildFolder,  d.fileExtension
-          from  board_info_m_tbl m 
-          left join board_info_d_tbl d 
+          from board_info_m_tbl m
+     LEFT JOIN board_info_d_tbl d
             on m.id = d.id
          where 1=1
            AND m.id = #{id}
@@ -134,10 +134,10 @@
     
     <select id="getCount"  parameterType="boardCrudDTO" resultType="int">
               SELECT COUNT(m.id) 
-		            FROM board_info_m_tbl m 
-		      LEFT JOIN board_info_d_tbl d 
-		              ON m.id = d.id 
-		           WHERE m.id=#{id}
+		        FROM board_info_m_tbl m
+		   LEFT JOIN board_info_d_tbl d
+		          ON m.id = d.id
+		       WHERE m.id=#{id}
     </select>
     <update id="updateBoardMasterByIdAndWriterName"  parameterType="boardCrudDTO">
         UPDATE board_info_m_tbl SET title =  #{title}
@@ -150,7 +150,7 @@
 	<select id="downloadFile"  parameterType="boardCrudDTO" resultType="boardCrudDTO">
           SELECT m.id  ,d.multiFileId ,  d.locDrive, d.locParentFolder, d.locChildFolder,  d.fileExtension
 		   FROM board_info_m_tbl m 
-	       right JOIN board_info_d_tbl d   
+	 RIGHT JOIN board_info_d_tbl d
 	         ON m.id  = d.id 
 		  WHERE m.userId = #{userId} 
 		    AND  m.ID  = #{id}
@@ -175,13 +175,13 @@
 	
 	  
 	<delete id="detailDeleteByMultiFileID" parameterType="boardCrudDTO">
-		delete from board_info_d_tbl where id = #{id} and  multiFileId = #{multiFileId}
+		DELETE FROM board_info_d_tbl WHERE id = #{id} AND  multiFileId = #{multiFileId}
 	</delete>
 	
 	<select id ="selectIdAndMultiFileIdByIdAndFileMeta"  parameterType="boardCrudDTO" resultType="boardCrudDTO"  >
-		select  d.id as id  , d.multiFileId 
-          from board_info_d_tbl d 
-         where 1=1
+		SELECT  d.id as id  , d.multiFileId
+          FROM board_info_d_tbl d
+         WHERE 1=1
            AND d.id = #{id}
            AND d.fileMeta = #{fileMeta} 
 	</select>

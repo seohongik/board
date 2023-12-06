@@ -7,6 +7,7 @@
 	<select id="selectMaxReplyChildId"  parameterType="boardReplyDTO" resultType="int">
  		SELECT max(childReplyId) as childReplyId FROM board_info_reply_tbl  WHERE id = #{id} and parentReplyId =#{parentReplyId}
     </select>
+
     <select id="selectMaxParentReplyId"  parameterType="boardReplyDTO" resultType="int">
         SELECT max(parentReplyId) as parentReplyId FROM board_info_reply_tbl  WHERE id = #{id}
     </select>
@@ -20,72 +21,70 @@
     <select id="selectListReplyForString"  parameterType="boardReplyDTO" resultType="boardReplyDTO" >
 
         SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId
-        from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as */content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ writerName , ro , d.parentReplyId
-              from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
-                   from board_info_reply_tbl a
+        FROM (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as */content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ writerName , ro , d.parentReplyId
+                from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
+                       FROM board_info_reply_tbl a
                   )d
-                      left join board_info_reply_tbl b
-                                on d.p = b.parentReplyId
+               LEFT JOIN board_info_reply_tbl b
+                 ON d.p = b.parentReplyId
              ) e
-        where e.id = #{id}
-        group by id, writerName , content , parentReplyId
+        WHERE e.id = #{id}
+        GROUP BY id, writerName , content , parentReplyId
     </select>
+
 
     <select id="selectListReply"  parameterType="boardReplyDTO" resultType="boardReplyDTO" >
-
-
         SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId
-        from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/ d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ d.writerName , ro , d.parentReplyId
-              from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
-                   from board_info_reply_tbl a
+        FROM (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/ d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ d.writerName , ro , d.parentReplyId
+              FROM(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
+                   FROM board_info_reply_tbl a
                   )d
-                      left join board_info_reply_tbl b
-                                on d.p = b.parentReplyId
+              LEFT JOIN board_info_reply_tbl b
+                     on d.p = b.parentReplyId
              ) e
-        where e.id = #{id}
-        group by id, writerName , content , parentReplyId
+        WHERE e.id = #{id}
+        GROUP BY id, writerName , content , parentReplyId
     </select>
+
     <select id="selectListReplyMother"  parameterType="boardReplyDTO" resultType="boardReplyDTO" >
-    SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId , e.childReplyId
-    from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ d.writerName , ro , d.parentReplyId , d.childReplyId
-    from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
-    from board_info_reply_tbl a
-    )d
-    left join board_info_reply_tbl b
-    on d.p = b.parentReplyId
-    ) e
-    where e.id = #{id}
-    and e.childReplyId =0
-    group by id, writerName , content , parentReplyId , childReplyId
+        SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId , e.childReplyId
+          FROM (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/ d.writerName , ro , d.parentReplyId , d.childReplyId
+                  FROM(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
+                         FROM  board_info_reply_tbl a
+                      )d
+                  LEFT JOIN board_info_reply_tbl b
+                    ON d.p = b.parentReplyId
+                ) e
+        WHERE e.id = #{id}
+          AND e.childReplyId =0
+        GROUP BY id, writerName , content , parentReplyId , childReplyId
     </select>
     <select id="selectListReplyChild"  parameterType="boardReplyDTO" resultType="boardReplyDTO" >
         SELECT  e.id, e.writerName , e.content , max(ro) as rowNum ,  e.parentReplyId , e.childReplyId
-        from (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/ d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/d.writerName , ro , d.parentReplyId , d.childReplyId
-              from(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
-                   from board_info_reply_tbl a
-                  )d
-                      left join board_info_reply_tbl b
-                                on d.p = b.parentReplyId
-             ) e
+          FROM (SELECT d.id, /*lpad (d.content,(CHAR_LENGTH(d.content)+(d.childReplyId*10)),'            ') as*/ d.content , /*lpad (d.writerName,(CHAR_LENGTH(d.writerName)+(d.childReplyId*10)),'            ') as*/d.writerName , ro , d.parentReplyId , d.childReplyId
+                  FROM(SELECT  a.content  ,ROW_NUMBER() over() as ro, a.writerName , a.id , a.parentReplyId as parentReplyId , a.childReplyId, lag(a.parentReplyId) over() as p
+                         FROM board_info_reply_tbl a
+                      )d
+                      LEFT JOIN  board_info_reply_tbl b
+                        ON d.p = b.parentReplyId
+               ) e
         where e.id = #{id}
-
         group by id, writerName , content , parentReplyId , childReplyId
     </select>
-    <delete id="deleteReply" parameterType="boardReplyDTO">
 
+    <delete id="deleteReply" parameterType="boardReplyDTO">
     DELETE FROM  board_info_reply_tbl where id = #{id} AND parentReplyId=#{parentReplyId}
     <if test="childReplyId gt -1">
         AND childReplyId = #{childReplyId}
     </if>
-
     </delete>
+
     <delete id="deleteAllReplyCuzPageRemove" parameterType="int">
-
         DELETE FROM  board_info_reply_tbl where id = #{id}
-
     </delete>
+
     <update id="updateReply" parameterType="boardReplyDTO">
-        update board_info_reply_tbl   set writerName=#{writerName} , content=#{content}   where id = #{id} AND parentReplyId=#{parentReplyId} AND childReplyId = #{childReplyId}
+        UPDATE board_info_reply_tbl   SET writerName=#{writerName} , content=#{content}   WHERE id = #{id} AND parentReplyId=#{parentReplyId} AND childReplyId = #{childReplyId}
     </update>
 
 </mapper>
