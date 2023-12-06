@@ -84,6 +84,20 @@ let formDataUploadTime = new FormData();
 
   $(function(){
 
+	  let hasFile=document.querySelectorAll(".fileLink");
+	  let preveiwFiles =document.querySelector("#preview");
+
+	  if(hasFile.length===0){
+
+		  let noFile=preveiwFiles.innerText ;
+		  preveiwFiles.innerText=noFile.replace(noFile,"파일 없음");
+	  }
+
+	  $("#toList").on("click", function() {
+		  let pageNum =$('#pageNum').val();
+		  location.href='/board/showAllList?pageNum='+pageNum
+	  });
+
     $('#updateBtn').on("click", function (){
     
     	  const textData=  {

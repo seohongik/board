@@ -10,8 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board_item_list_page.css"  />
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src = "/resources/js/board_item_list.js"> </script>
-<body>
+
 <body>
 	<div id="container">
 		<form action="/board/showAllList"method="get">
@@ -79,6 +78,6 @@
 		</form>
 	</div>
 </body>
-
+<script src = "/resources/js/board_item_list.js"> </script>
 </html>
 
