@@ -13,20 +13,32 @@ public class BoardValidDTO {
 	
 	private BoardCrudDTO boardCrudDTO;
 
+	private BoardReplyDTO boardReplyDTO;
+
 	public BoardValidDTO( BoardCrudDTO boardCrudDTO){
-
 		this.boardCrudDTO = boardCrudDTO;
+	}
 
+	public BoardValidDTO( BoardReplyDTO boardReplyDTO){
+		this.boardReplyDTO = boardReplyDTO;
 	}
 	
-	public String getWriterName() {
+	public String getWriterNameBoard() {
 		return boardCrudDTO.getWriterName();
 	}
 	
-	public String getContent() {
+	public String getContentBoard() {
 		return boardCrudDTO.getContent();
 	}
-	public String getTitle() {return boardCrudDTO.getTitle();
+	public String getTitleBoard() {return boardCrudDTO.getTitle();
+	}
+
+	public String getWriterNameReply() {
+		return boardReplyDTO.getWriterName();
+	}
+
+	public String getContentReply() {
+		return boardReplyDTO.getContent();
 	}
 	
 	

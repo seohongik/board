@@ -136,47 +136,34 @@ $(function(){
 		<div id="buttonCover">
 			<input type="button" value="글 수정 버튼" id="updateBtn" />
 		</div>
-		<div>
-			<table>
-				<tr>
-					<td>
-						<label for="replyWriterName" > 댓글 작성자</label>
-						<input id="replyWriterName" name="replyWriterName" />
+
+
+		<div id="replyContainer" style="width: 50%">
+
+			<div id="replyHere">
+				<c:forEach var="replyMother" items="${replyListMother}" varStatus="status">
+					<div class="reReplyResult parentResult">
+						<div class='replyResultParentReplyIdAll'
+							 style="visibility: hidden">${replyMother.parentReplyId} </div>
+						작성자 :<div class='replyResultWriterName'
+								  style="border:darkcyan;">${replyMother.writerName}</div>
 						<br>
-						<label for="replyContent">댓글 내용</label>
-						<textarea id="replyContent" name="replyContent" style="width: 709px; height: 104px;"> </textarea>
-					</td>
-				</tr>
-			</table>
-			<input type="button" value="댓글 달기" id="replyBtn"/>
-		</div>
+						콘텐츠 :<div class='replyResultContent'
+									   style="width: 709px; border:darkcyan;">${replyMother.content} </div>
 
-		<div class="buttonCover">
-			<input type="file" id="file-input" value="파일 버튼" />
-		</div>
-
-		<div id="replyHere">
-
-			<c:forEach var="replyMother" items="${replyListMother}" varStatus="status">
-
-				<div  class="replyBox">
-
-					<input class="parentReplyId" name="parentReplyId" value="${replyMother.parentReplyId}" style="visibility: hidden" />
-					<div class='replyResultParentReplyIdAll' style="visibility: hidden">${replyMother.parentReplyId} </div>
-					<div class='replyResultWriterName'>작성자 :${replyMother.writerName} </div>
-					<div class='replyContentResultContent' >댓글 :${replyMother.content} </div>
-
-					<div class="replyToReplyHere" style="margin-left: 50px">
+					</div>
+					<div class="replyToReplyHere childResult" style="margin-left: 50px">
 						<c:forEach var="replyChild" items="${replyListChild}" varStatus="status2">
 							<c:if test="${(replyChild.parentReplyId eq replyMother.parentReplyId )&& replyChild.childReplyId ne 0 }">
-								<div class='replyResultWriterName'>작성자 ${replyChild.writerName}</div>
-								<div class='replyContentResultContent' >댓글: ${replyChild.content}</div>
+								작성자:<div class='replyResultWriterName'  style="border:darkcyan;">${replyChild.writerName}</div>
+								<br>
+								콘텐츠:<div class='replyResultContent'  style="width: 709px;  border:darkcyan;"> ${replyChild.content}</div >
 							</c:if>
 						</c:forEach>
 					</div>
-				</div>
-			</c:forEach>
-		<!--  </form> -->
+				</c:forEach>
+			</div>
+		</div>
 	</div>
 </body>
 <script src="/resources/js/board_item_file_upload_in_update_with_file.js"></script>

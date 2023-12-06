@@ -118,7 +118,7 @@ let formDataUploadTime = new FormData();
                 },
                 error: function (error) {
                     //console.dir(error)
-                    alert(error.responseJSON.resDescription.replace(',',"\\n"));
+                    alert(error.responseJSON.resDescription);
                  }
     		});
     	    

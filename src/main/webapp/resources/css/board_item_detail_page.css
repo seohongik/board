@@ -16,7 +16,6 @@ td{
 
 #container{
     width: 50%;
-    padding-top: 15%;
     /*padding-bottom: 25%;*/
     padding-left: 25%;
     padding-right: 25%;
@@ -72,10 +71,6 @@ input[type=button]{
 .replyResultWriterName{
     width: unset;
     height: unset;
-}
-
-.replyResultContent{
-    width: 709px; height: 104px;
 }
 
  .boardTextWindow{

@@ -101,26 +101,26 @@ public class BoardCrudController {
 			mnv.setViewName("board_auth_page");
 			return mnv;
 		}
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail(id, userId, map);
+
 		BoardReplyDTO boardReplyDTOMother = new BoardReplyDTO();
 		boardReplyDTOMother.setId(Integer.parseInt(id));
 		BoardReplyDTO boardReplyDTOChild = new BoardReplyDTO();
-		BoardReplyDTO boardReplyDTO = new BoardReplyDTO();
-		boardReplyDTO.setId(Integer.parseInt(id));
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail(id, userId, map);
+		boardReplyDTOChild.setId(Integer.parseInt(id));
+
 		List<BoardReplyDTO> replyListMother = new ArrayList<>(boardCrudService.showReplyMother(boardReplyDTOMother));
 		List<BoardReplyDTO> replyListChildList = boardCrudService.showReplyChild(boardReplyDTOChild);
 		List<BoardReplyDTO> replyListChildResultList = new ArrayList<>();
-
 		for (BoardReplyDTO boardReplyDTOM : replyListMother) {
 
-
-			for (BoardReplyDTO boardReplyDTOD : replyListChildList)
+			for (BoardReplyDTO boardReplyDTOD : replyListChildList) {
 				if (boardReplyDTOD.getId() == boardReplyDTOM.getId() && boardReplyDTOM.getParentReplyId() == boardReplyDTOD.getParentReplyId()) {
 					replyListChildResultList.add(boardReplyDTOD);
 				}
+			}
 		}
-		;
+
 
 		String pageNum = boardCrudService.calcRn(id);
 
@@ -140,18 +140,23 @@ public class BoardCrudController {
 
 	@RequestMapping(value = "/insertBoardDataWithFile", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<BoardResDTO> insertBoardDataWithFile(@RequestParam(value = "file", required = false) MultipartFile[] files, @RequestParam(value = "uploadTime", required = false) String[] uploadTimes, BoardCrudDTO boardCrudDTOReq, HttpSession httpSession, BindingResult bindingResult) throws UnsupportedEncodingException {
+	public ResponseEntity<BoardResDTO> insertBoardDataWithFile(
+			@RequestParam(value = "file", required = false) MultipartFile[] files,
+
+			@RequestParam(value = "uploadTime", required = false) String[] uploadTimes,
+			BoardCrudDTO boardCrudDTOReq,
+			HttpSession httpSession,
+			BindingResult bindingResult) throws UnsupportedEncodingException {
 		String session = (String) httpSession.getAttribute("userIdSess");
+
+
 		BoardResDTO boardResDTO = new BoardResDTO();
 		if (session == null) {
 			boardResDTO.setCode(203);
 		}
 
 		BoardValidDTO validDto = new BoardValidDTO(boardCrudDTOReq);
-
-		StringBuilder sb = new StringBuilder();
-		Map<Boolean,BoardResDTO>  validResultMap =determineValid(validDto, bindingResult, boardResDTO, sb);
-
+		Map<Boolean,BoardResDTO>  validResultMap =determineValid(validDto, bindingResult);
 		if(validResultMap.containsKey(false)){
 
 			return new ResponseEntity<>(validResultMap.get(false),HttpStatus.BAD_REQUEST);
@@ -175,12 +180,15 @@ public class BoardCrudController {
 			mnv.setViewName("board_auth_page");
 			return mnv;
 		}
+		Map<String, String> textMap = new LinkedHashMap<String, String>();
+		List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail(id, userId, textMap);
+
+
 		BoardReplyDTO boardReplyDTOMother = new BoardReplyDTO();
 		boardReplyDTOMother.setId(Integer.parseInt(id));
 		BoardReplyDTO boardReplyDTOChild = new BoardReplyDTO();
 		boardReplyDTOChild.setId(Integer.parseInt(id));
-		Map<String, String> textMap = new LinkedHashMap<String, String>();
-		List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail(id, userId, textMap);
+
 		List<BoardReplyDTO> replyListMother = new ArrayList<>(boardCrudService.showReplyMother(boardReplyDTOMother));
 		List<BoardReplyDTO> replyListChildList = boardCrudService.showReplyChild(boardReplyDTOChild);
 		List<BoardReplyDTO> replyListChildResultList = new ArrayList<>();
@@ -215,16 +223,12 @@ public class BoardCrudController {
 			HttpSession httpSession,
 			BindingResult bindingResult) throws Exception {
 
-		System.out.println(updateFiles.length);
-		//System.out.println(deleteFileCondition.length);
+
 
 		BoardValidDTO validDto = new BoardValidDTO(boardCrudDTOReqParam);
-		BoardResDTO boardResDTO = new BoardResDTO();
 		validDto.setBoardCrudDTO(boardCrudDTOReqParam);
 
-
-		StringBuilder sb = new StringBuilder();
-		Map<Boolean,BoardResDTO>  validResultMap =determineValid(validDto, bindingResult, boardResDTO, sb);
+		Map<Boolean,BoardResDTO>  validResultMap =determineValid(validDto, bindingResult);
 
 		if(validResultMap.containsKey(false)){
 
@@ -268,11 +272,18 @@ public class BoardCrudController {
 
 	@RequestMapping(value = "/makeReply", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<BoardResDTO> reply(@RequestBody BoardReplyDTO boardReplyDTO) {
+	public ResponseEntity<BoardResDTO> reply(@RequestBody BoardReplyDTO boardReplyDTO,BindingResult bindingResult) {
+
+		BoardValidDTO validDTO = new BoardValidDTO(boardReplyDTO);
+		BoardResDTO boardResDTO = new BoardResDTO();
+
+		Map<Boolean,BoardResDTO>  validResultMap =determineValid(validDTO,bindingResult );
+		if(validResultMap.containsKey(false)){
+			return new ResponseEntity<>(validResultMap.get(false),HttpStatus.BAD_REQUEST);
+		}
 
 		boardCrudService.makeReply(boardReplyDTO);
 
-		BoardResDTO boardResDTO = new BoardResDTO();
 		boardResDTO.setCode(200);
 		return new ResponseEntity<>(boardResDTO, HttpStatus.OK);
 
@@ -295,20 +306,31 @@ public class BoardCrudController {
 
 	@RequestMapping(value = "/updateReply", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<BoardResDTO> updateReply(@RequestBody BoardReplyDTO boardReplyDTOParam) {
+	public ResponseEntity<BoardResDTO> updateReply(@RequestBody BoardReplyDTO boardReplyDTOParam,BindingResult bindingResult) {
+
+		BoardValidDTO validDTO = new BoardValidDTO(boardReplyDTOParam);
+		Map<Boolean,BoardResDTO>  validResultMap =determineValid(validDTO,bindingResult );
+		if(validResultMap.containsKey(false)){
+			return new ResponseEntity<>(validResultMap.get(false),HttpStatus.BAD_REQUEST);
+		}
+
 
 		return boardCrudService.updateReply(boardReplyDTOParam);
 	}
 
-	private Map<Boolean,BoardResDTO> determineValid(BoardValidDTO validDto, BindingResult bindingResult, BoardResDTO boardResDTO, StringBuilder sb ) {
+	private Map<Boolean,BoardResDTO> determineValid(BoardValidDTO validDto, BindingResult bindingResult) {
 
+		StringBuilder sb = new StringBuilder();
 		Map<Boolean,BoardResDTO> map = new HashMap<>();
+		BoardResDTO boardResDTO = new BoardResDTO();
 		valueValidConfig.validate(validDto, bindingResult);
 		if (bindingResult.hasErrors()) {
 
 			List<FieldError> errs = bindingResult.getFieldErrors();
 
 			for (FieldError fieldError : errs) {
+
+				log.error("fieldError:{}",fieldError);
 
 				String errMsg = fieldError.getDefaultMessage();
 				sb.append("message :  ").append(errMsg);
