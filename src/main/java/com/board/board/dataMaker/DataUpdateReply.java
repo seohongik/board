@@ -1,7 +1,9 @@
 package com.board.board.dataMaker;
 
 import com.board.board.dto.BoardReplyDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DataUpdateReply {
     public void init(BoardReplyDTO boardReplyDTO, BoardReplyDTO boardReplyDTOParam) {
 

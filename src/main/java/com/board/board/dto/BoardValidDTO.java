@@ -1,6 +1,5 @@
 package com.board.board.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
@@ -10,36 +9,38 @@ import org.apache.ibatis.type.Alias;
 @Alias("boardValidDTO")
 public class BoardValidDTO {
 
-	
-	private BoardCrudDTO boardCrudDTO;
 
-	private BoardReplyDTO boardReplyDTO;
+    private BoardCrudDTO boardCrudDTO;
 
-	public BoardValidDTO( BoardCrudDTO boardCrudDTO){
-		this.boardCrudDTO = boardCrudDTO;
-	}
+    private BoardReplyDTO boardReplyDTO;
 
-	public BoardValidDTO( BoardReplyDTO boardReplyDTO){
-		this.boardReplyDTO = boardReplyDTO;
-	}
-	
-	public String getWriterNameBoard() {
-		return boardCrudDTO.getWriterName();
-	}
-	
-	public String getContentBoard() {
-		return boardCrudDTO.getContent();
-	}
-	public String getTitleBoard() {return boardCrudDTO.getTitle();
-	}
+    public BoardValidDTO(BoardCrudDTO boardCrudDTO) {
+        this.boardCrudDTO = boardCrudDTO;
+    }
 
-	public String getWriterNameReply() {
-		return boardReplyDTO.getWriterName();
-	}
+    public BoardValidDTO(BoardReplyDTO boardReplyDTO) {
+        this.boardReplyDTO = boardReplyDTO;
+    }
 
-	public String getContentReply() {
-		return boardReplyDTO.getContent();
-	}
-	
-	
+    public String getWriterNameBoard() {
+        return boardCrudDTO.getWriterName();
+    }
+
+    public String getContentBoard() {
+        return boardCrudDTO.getContent();
+    }
+
+    public String getTitleBoard() {
+        return boardCrudDTO.getTitle();
+    }
+
+    public String getWriterNameReply() {
+        return boardReplyDTO.getWriterName();
+    }
+
+    public String getContentReply() {
+        return boardReplyDTO.getContent();
+    }
+
+
 }

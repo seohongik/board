@@ -7,21 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+@Component
 public class DataDeleteAllById {
 
-    public File getFolder(BoardCrudDTO boardCrudDTOText){
+    public File getFolder(BoardCrudDTO boardCrudDTOText) {
         File psyFolder = new File(boardCrudDTOText.getLocDrive() + File.separatorChar + boardCrudDTOText.getLocParentFolder() + File.separatorChar + boardCrudDTOText.getLocChildFolder());
         return psyFolder;
     }
 
-    public ResponseEntity<BoardResDTO> isStatus(List<BoardCrudDTO> selectByIdAfterDelete){
+    public ResponseEntity<BoardResDTO> isStatus(List<BoardCrudDTO> selectByIdAfterDelete) {
 
         if (selectByIdAfterDelete.isEmpty()) {
             BoardResDTO sucessBoardResDTO = new BoardResDTO();

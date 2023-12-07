@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mybatise-spring="http://mybatis.org/schema/mybatis-spring"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	
-	
+
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="org.mariadb.jdbc.Driver"/>
 		<property name="url" value="jdbc:mariadb://localhost/board?allowPublicKeyRetrieval=true" />
@@ -23,7 +20,8 @@
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory" />
     </bean>
-   
+
+    <!-- 어노테이션 대체
     <bean id="boardAuthDAO" class="com.board.board.dao.BoardAuthDAO">
     	<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>  
     </bean>
@@ -35,9 +33,8 @@
     <bean id="boardCrudDAO" class="com.board.board.dao.BoardCrudDAO">
     	<property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>  
     </bean>
-
-
-
+    -->
+   <!--
     <bean id="boardAuthService" class="com.board.board.serviceImpl.BoardAuthServiceImpl">
         <property name="boardAuthDAO" ref="boardAuthDAO"/>
     </bean>
@@ -65,5 +62,5 @@
         <constructor-arg index="8" ref="dataDeleteReply"/>
         <constructor-arg index="9" ref="dataUpdateReply"/>
     </bean>
-
+    -->
 </beans>

@@ -18,7 +18,7 @@ public class DataMakeBoardListWithPaging {
         }
         int amount = Integer.parseInt(amountStr);
 
-        BoardPageDTO boardPageDTO  = new BoardPageDTO(pageNumInt, amount, total);
+        BoardPageDTO boardPageDTO = new BoardPageDTO(pageNumInt, amount, total);
 
         int numMultiAmount = boardPageDTO.getPageNum() * boardPageDTO.getAmount();
         int numMinusOneMultiAmount = (boardPageDTO.getPageNum() - 1) * boardPageDTO.getAmount();
@@ -30,13 +30,13 @@ public class DataMakeBoardListWithPaging {
     }
 
 
-    public  void  paging(Map<String, BoardPageDTO> pageMap,BoardPageDTO boardPageDTO) {
+    public void paging(Map<String, BoardPageDTO> pageMap, BoardPageDTO boardPageDTO) {
         pageMap.put("pageMaker", boardPageDTO);
 
     }
 
     public void hasFileData(List<BoardCrudDTO> list) {
-        if(!list.isEmpty()) {
+        if (!list.isEmpty()) {
 
             for (BoardCrudDTO boardCrudDTO : list) {
 

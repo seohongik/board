@@ -1,7 +1,6 @@
 package com.board.board.dataMaker;
 
 import com.board.board.dto.BoardCrudDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,12 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+@Component
 public class DataMakeWithFile {
     public void init(BoardCrudDTO boardCrudDTOText, BoardCrudDTO boardCrudDTOReq,
                      HttpSession httpSession) throws UnsupportedEncodingException {
@@ -54,7 +48,7 @@ public class DataMakeWithFile {
     public void makePsyFile(String uploadTime, MultipartFile file, File psyFolder) {
 
         try (FileOutputStream fos = new FileOutputStream(psyFolder.getPath() + File.separatorChar + new String(file.getOriginalFilename().getBytes("8859_1"), "utf-8"));
-             InputStream is = file.getInputStream();) {
+             InputStream is = file.getInputStream()) {
             int readCount = 0;
             byte[] buffer = new byte[1024];
             while ((readCount = is.read(buffer)) != -1) {

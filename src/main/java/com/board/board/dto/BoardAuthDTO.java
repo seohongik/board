@@ -17,5 +17,4 @@ public class BoardAuthDTO {
     protected String createdBy;
 
 
-    
 }

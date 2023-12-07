@@ -27,9 +27,9 @@ $(function(){
             contentType: contentType,
             success: function(data) {
                 console.log(data);
-                if(data.result.code===200){
+                if(data.code===200){
                     location.href = "/board/showAllList?pageNum=1&amount=10";
-                }else if(data.result.code===400){
+                }else if(data.code===400){
                     alert("아이디가 없거나 정보가 일치 하지 않습니다.");
                 }
                 //추가추가

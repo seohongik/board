@@ -1,36 +1,21 @@
 package com.board.board.dataMaker;
 
 import com.board.board.dto.BoardCrudDTO;
-import com.board.board.dto.BoardResDTO;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+@Component
 public class DataUpdateWithFile {
-    public void init(BoardCrudDTO boardCrudDTOReq, BoardCrudDTO boardCrudDTOText , HttpSession httpSession) throws UnsupportedEncodingException {
+    public void init(BoardCrudDTO boardCrudDTOReq, BoardCrudDTO boardCrudDTOText, HttpSession httpSession) throws UnsupportedEncodingException {
 
         String id = new String(boardCrudDTOReq.getId().getBytes("8859_1"), "utf-8");
         String writerName = new String(boardCrudDTOReq.getWriterName().getBytes("8859_1"), "utf-8");
         String updatedWhen = new String(boardCrudDTOReq.getUpdatedWhen().getBytes("8859_1"), "utf-8");
         String title = new String(boardCrudDTOReq.getTitle().getBytes("8859_1"), "utf-8");
         String content = new String(boardCrudDTOReq.getContent().getBytes("8859_1"), "utf-8");
-        String userId=(String) httpSession.getAttribute("userIdSess");
+        String userId = (String) httpSession.getAttribute("userIdSess");
 
         boardCrudDTOText.setId(id);
         boardCrudDTOText.setContent(content);
@@ -40,7 +25,7 @@ public class DataUpdateWithFile {
         boardCrudDTOText.setUserId(userId);
     }
 
-    public void deleteCurrentPysFile(File psyFolder,String filName){
+    public void deleteCurrentPysFile(File psyFolder, String filName) {
 
         File delEachFile = new File(psyFolder.getPath() + File.separatorChar + filName);
         delEachFile.delete();
@@ -93,7 +78,7 @@ public class DataUpdateWithFile {
     }*/
 
 
-    public File getFolder(BoardCrudDTO boardCrudDTOText){
+    public File getFolder(BoardCrudDTO boardCrudDTOText) {
         File psyFolder = new File(boardCrudDTOText.getLocDrive() + File.separatorChar + boardCrudDTOText.getLocParentFolder() + File.separatorChar + boardCrudDTOText.getLocChildFolder());
         return psyFolder;
     }

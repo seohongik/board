@@ -11,13 +11,13 @@ import org.apache.ibatis.type.Alias;
 @Alias("boardReplyDTO")
 public class BoardReplyDTO {
 
-    private int id ;
+    private int id;
     private int parentReplyId;
-    private int childReplyId  ;
-    private String writerName ;
-    private String content ;
-    private String createdBy ;
-    private String updatedBy ;
+    private int childReplyId;
+    private String writerName;
+    private String content;
+    private String createdBy;
+    private String updatedBy;
     private String userId;
 
     private String whichBtn;
