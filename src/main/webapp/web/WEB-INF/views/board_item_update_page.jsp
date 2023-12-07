@@ -55,15 +55,16 @@
 				<div id="preview">	
 					<c:forEach var="fileItems" items="${multiFileNameList}" varStatus="status">
 						<div>
-						 <p class=fileLink id="${status.index}"> ${fileItems.fileName}     <button data-index='${status.index}' value="${ fileItems.fileMeta}" class='file-remove'>X</button></p>
-
+						 	<p class=fileLink id="${status.index}"> ${fileItems.fileName}     <button data-index='${status.index}' value="${ fileItems.fileMeta}" class='file-remove'>X</button></p>
 						</div> 
 					</c:forEach>
 				 </div>
 				</td>
 			</tr>
 		</table>
-
+		<div class="buttonCover">
+			<input type="file" id="file-input" value="파일 버튼" />
+		</div>
 		<input type="hidden" name="compareId" id="compareId"
 			   value="${userIdSess}" />
 		<div id="buttonCover">
