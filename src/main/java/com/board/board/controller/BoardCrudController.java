@@ -92,12 +92,12 @@ public class BoardCrudController {
             return mnv;
         }
         Map<String, String> map = new LinkedHashMap<String, String>();
-        List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail(id, userId, map);
+        List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail((id), userId, map);
 
         BoardReplyDTO boardReplyDTOMother = new BoardReplyDTO();
-        boardReplyDTOMother.setId(Integer.parseInt(id));
+        boardReplyDTOMother.setId(Integer.parseInt((id)));
         BoardReplyDTO boardReplyDTOChild = new BoardReplyDTO();
-        boardReplyDTOChild.setId(Integer.parseInt(id));
+        boardReplyDTOChild.setId(Integer.parseInt((id)));
 
         List<BoardReplyDTO> replyListMother = new ArrayList<>(boardCrudService.showReplyMother(boardReplyDTOMother));
         List<BoardReplyDTO> replyListChildList = boardCrudService.showReplyChild(boardReplyDTOChild);
@@ -112,7 +112,7 @@ public class BoardCrudController {
         }
 
 
-        String pageNum = boardCrudService.calcRowNum(id);
+        String pageNum = boardCrudService.calcRowNum((id));
 
 
         map.put("pageNum", pageNum);
@@ -132,13 +132,11 @@ public class BoardCrudController {
     @ResponseBody
     public ResponseEntity<BoardResDTO> insertBoardDataWithFile(
             @RequestParam(value = "file", required = false) MultipartFile[] files,
-
             @RequestParam(value = "uploadTime", required = false) String[] uploadTimes,
             BoardCrudDTO boardCrudDTOReq,
             HttpSession httpSession,
             BindingResult bindingResult) throws UnsupportedEncodingException {
         String session = (String) httpSession.getAttribute("userIdSess");
-
 
         BoardResDTO boardResDTO = new BoardResDTO();
         if (session == null) {
@@ -158,7 +156,7 @@ public class BoardCrudController {
     }
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public ModelAndView showBoardJoinItemRead(
+    public ModelAndView showBoardDetail(
             @PathVariable String id,
             HttpSession httpSession) {
 
@@ -171,13 +169,13 @@ public class BoardCrudController {
             return mnv;
         }
         Map<String, String> textMap = new LinkedHashMap<String, String>();
-        List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail(id, userId, textMap);
+        List<BoardCrudDTO> multiFileNameList = boardCrudService.showBoardDetail((id), userId, textMap);
 
 
         BoardReplyDTO boardReplyDTOMother = new BoardReplyDTO();
-        boardReplyDTOMother.setId(Integer.parseInt(id));
+        boardReplyDTOMother.setId(Integer.parseInt((id)));
         BoardReplyDTO boardReplyDTOChild = new BoardReplyDTO();
-        boardReplyDTOChild.setId(Integer.parseInt(id));
+        boardReplyDTOChild.setId(Integer.parseInt((id)));
 
         List<BoardReplyDTO> replyListMother = new ArrayList<>(boardCrudService.showReplyMother(boardReplyDTOMother));
         List<BoardReplyDTO> replyListChildList = boardCrudService.showReplyChild(boardReplyDTOChild);
@@ -191,7 +189,7 @@ public class BoardCrudController {
             }
         }
 
-        String pageNum = boardCrudService.calcRowNum(id);
+        String pageNum = boardCrudService.calcRowNum((id));
         textMap.put("pageNum", pageNum);
         mnv.addObject("multiFileNameList", multiFileNameList);
         mnv.addObject("userIdSess", userId);
@@ -205,7 +203,7 @@ public class BoardCrudController {
 
     @RequestMapping(value = "/updateBoardDataWithFile", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<BoardResDTO> updateBoardByIdAndWriterNameWithFile(
+    public ResponseEntity<BoardResDTO> updateBoardDataWithFile(
             @RequestParam(value = "updateFiles", required = false) MultipartFile[] updateFiles,
             @RequestParam(value = "uploadTime", required = false) String[] updateTimes,
             @RequestParam(value = "deleteFileCondition", required = false) String[] deleteFileCondition,
@@ -238,11 +236,11 @@ public class BoardCrudController {
 
     @RequestMapping(value = "/deleteBoardData", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<BoardResDTO> deleteDataByID(@RequestBody BoardCrudDTO boardCrudDTOReqParam, HttpSession httpSession) {
-        log.error("BoardCrudDTOReqParam:{}", boardCrudDTOReqParam);
+    public ResponseEntity<BoardResDTO> deleteBoardData(@RequestBody BoardCrudDTO boardCrudDTOReqParam, HttpSession httpSession) {
+
         String userId = (String) httpSession.getAttribute("userIdSess");
         boardCrudDTOReqParam.setUserId(userId);
-        boardCrudService.deleteReplyAll(Integer.parseInt(boardCrudDTOReqParam.getId()));
+        boardCrudService.deleteReplyAll(Integer.parseInt(String.valueOf(boardCrudDTOReqParam.getId())));
         return boardCrudService.deleteAllDataByID(boardCrudDTOReqParam);
     }
 
@@ -250,7 +248,7 @@ public class BoardCrudController {
     public void downloadFile(HttpServletResponse response, @PathVariable("id") String id, @RequestParam("userId") String userId, @RequestParam("fileMeta") String fileMeta) {
 
         try {
-            boardCrudService.downloadFile(response, id, userId, fileMeta);
+            boardCrudService.downloadFile(response, (id), userId, fileMeta);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -258,7 +256,7 @@ public class BoardCrudController {
 
     @RequestMapping(value = "/makeReply", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<BoardResDTO> reply(@RequestBody BoardReplyDTO boardReplyDTO, BindingResult bindingResult) {
+    public ResponseEntity<BoardResDTO> makeReply(@RequestBody BoardReplyDTO boardReplyDTO, BindingResult bindingResult) {
 
         BoardValidDTO validDTO = new BoardValidDTO(boardReplyDTO);
         BoardResDTO boardResDTO = new BoardResDTO();
@@ -276,11 +274,11 @@ public class BoardCrudController {
     }
 
     @RequestMapping(value = "/removeReply", method = RequestMethod.GET)
-    public String removeReply(@RequestParam int id, @RequestParam String parentReplyId, @RequestParam(defaultValue = "-1") String childReplyId) {
+    public String removeReply(@RequestParam String id, @RequestParam String parentReplyId, @RequestParam(defaultValue = "-1") String childReplyId) {
 
         BoardReplyDTO boardReplyDTO = new BoardReplyDTO();
 
-        boardCrudService.deleteReply(boardReplyDTO, id, Integer.parseInt(parentReplyId), Integer.parseInt(childReplyId));
+        boardCrudService.deleteReply(boardReplyDTO, Integer.parseInt(id), Integer.parseInt(parentReplyId), Integer.parseInt(childReplyId));
 
         return "redirect:/board/detail/" + id;
     }

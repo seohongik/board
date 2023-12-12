@@ -139,12 +139,13 @@
 		          ON m.id = d.id
 		       WHERE m.id=#{id}
     </select>
-    <update id="updateBoardMasterByIdAndWriterName"  parameterType="boardCrudDTO">
-        UPDATE board_info_m_tbl SET title =  #{title}
-                			    , content =  #{content}
+    <update id="updateBoardMasterById"  parameterType="boardCrudDTO">
+        UPDATE board_info_m_tbl SET  content =  #{content}
+                			    , title =  #{title}
                					, updatedBy = #{userId}
                					, updatedWhen = now()
-        WHERE  id =#{id}
+        WHERE  id = #{id}
+          and userId = #{userId}
 	</update>
 	
 	<select id="downloadFile"  parameterType="boardCrudDTO" resultType="boardCrudDTO">

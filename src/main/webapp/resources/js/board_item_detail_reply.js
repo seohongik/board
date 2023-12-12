@@ -1,5 +1,5 @@
 $("#replyBtn").click(function () {
-    let id = $('#id').val();
+    let id = Number($('#id').val());
     let userId = $('#userId').val();
     let writerName = $('#replyWriterName').val();
     let content = $('#replyContent').val();
@@ -70,7 +70,7 @@ $(".initReReply").each(function (index, item) {
 
     $($(".makeReReplyBtn")[index]).click(function (e) {
 
-        let id = $("#id").val();
+        let id = Number($('#id').val());
         let userId = $('#userId').val();
         let parentReplyId = $($(".initReReply input[name=parentReplyId]").eq(index)).val();
         let childReplyId = $($(".initReReply input[name=childReplyId]").eq(index)).val();
@@ -95,7 +95,7 @@ $(".parentResult input[name=replyResultWriterName]").each(function (index, item)
 
     $($(".sendUpdateReplyParent")[index]).click(function () {
 
-        let id = $("#id").val();
+        let id = Number($('#id').val());
         let parentReplyId = $($(".parentResult input[name=parentReplyId]").eq(index)).val();
         let childReplyId = $($(".parentResult input[name=childReplyId]").eq(index)).val();
         let writerName = $($(".parentResult input[name=replyResultWriterName]").eq(index)).val();
@@ -119,7 +119,7 @@ $(".childResult input[name=replyResultWriterName]").each(function (index, item) 
 
     $($(".sendUpdateReplyChild")[index]).click(function () {
 
-        let id = $("#id").val();
+        let id =Number($('#id').val());
         let parentReplyId = $($(".childResult input[name=parentReplyId]").eq(index)).val();
         let childReplyId = $($(".childResult input[name=childReplyId]").eq(index)).val();
         let writerName = $($(".childResult input[name=replyResultWriterName]").eq(index)).val();

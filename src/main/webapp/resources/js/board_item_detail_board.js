@@ -3,7 +3,7 @@ $(function () {
     let hasFile = document.querySelectorAll(".fileLink");
     let preveiwFiles = document.querySelector("#previewFiles");
 
-    if (hasFile.length == 0) {
+    if (hasFile.length === 0) {
 
         let noFile = preveiwFiles.innerText;
         preveiwFiles.innerText = noFile.replace(noFile, "파일 없음");
@@ -15,7 +15,7 @@ $(function () {
             let writerName = $('#writerName').val();
             let updatedWhen = $('#updatedWhen').val();
             let title = $('#title').val();
-            let id = $('#id').val();
+            let id = Number($('#id').val());
             let userId = $('#userId').val();
 
             let data = {
@@ -41,7 +41,7 @@ $(function () {
 
     $("#toUpdateBtn").click(function () {
         if ($("#userId").val() === $("#compareId").val()) {
-            let id = $("#id").val();
+            let id = Number($("#id").val());
             location.href = "/board/toUpdateFromDetail/" + id
         }//endOfIf
         else {

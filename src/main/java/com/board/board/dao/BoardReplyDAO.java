@@ -16,53 +16,53 @@ public class BoardReplyDAO {
         this.sqlSessionTemplate = sqlSessionTemplate;
     }
 
-    public List<BoardReplyDTO> readStatementList(String sql, BoardReplyDTO boardReplyDTO) {
+    public List<BoardReplyDTO> readPreStatementList(String sql, BoardReplyDTO boardReplyDTO) {
 
         return sqlSessionTemplate.selectList(sql, boardReplyDTO);
     }
 
-    public BoardReplyDTO readStatement(String sql, BoardReplyDTO boardReplyDTO) {
+    public BoardReplyDTO readPreStatement(String sql, BoardReplyDTO boardReplyDTO) {
 
         return sqlSessionTemplate.selectOne(sql, boardReplyDTO);
     }
 
-    public int readStatementCount(String sql, BoardReplyDTO boardReplyDTO) {
+    public int readPreStatementCount(String sql, BoardReplyDTO boardReplyDTO) {
 
         return sqlSessionTemplate.selectOne(sql, boardReplyDTO);
     }
 
-    public Object readStatementObject(String sql, BoardReplyDTO boardReplyDTO) {
+    public Object readPreStatementObject(String sql, BoardReplyDTO boardReplyDTO) {
 
         return sqlSessionTemplate.selectOne(sql, boardReplyDTO);
     }
 
-    public void createStatement(String sql, BoardReplyDTO boardReplyDTO) {
+    public void createPreStatement(String sql, BoardReplyDTO boardReplyDTO) {
 
         sqlSessionTemplate.insert(sql, boardReplyDTO);
     }
 
-    public void deleteStatement(String sql, BoardReplyDTO boardReplyDTO) {
+    public void deletePreStatement(String sql, BoardReplyDTO boardReplyDTO) {
 
         sqlSessionTemplate.delete(sql, boardReplyDTO);
     }
 
-    public void deleteStatement(String sql, int id) {
+    public void deletePreStatement(String sql, int id) {
 
         sqlSessionTemplate.delete(sql, id);
     }
 
-    public void updateStatement(String sql, BoardReplyDTO boardReplyDTO) {
+    public void updatePreStatement(String sql, BoardReplyDTO boardReplyDTO) {
 
         sqlSessionTemplate.update(sql, boardReplyDTO);
     }
 
-    public String readStatementString(String sql, String id) {
+    public String readPreStatementString(String sql, String id) {
 
         return sqlSessionTemplate.selectOne(sql, id);
     }
 
 
-    public List<String> readStatementStringList(String sql, BoardReplyDTO boardReplyDTO) {
+    public List<String> readPreStatementStringList(String sql, BoardReplyDTO boardReplyDTO) {
         return sqlSessionTemplate.selectList(sql, boardReplyDTO);
     }
 }

@@ -22,8 +22,8 @@
 	<!-- <form enctype="multipart/form-data" id="updateForm" name="updateForm" > -->
 		<p id="info">게시판 수정 페이지</p>
 		 <span><button id="toList" > 전체페이지 가기 버튼</button></span>
-		 <input id="id" name="id" value=${map.get('id')} type="hidden" readonly="readonly" /> 
-		 <input id="userId" name="userId" value=${map.get("userId")} type="hidden" readonly="readonly" />
+		 <input id="id" name="id" value='${map.get('id')}' type="hidden" readonly="readonly" />
+		 <input id="userId" name="userId" value='${map.get("userId")}' type="hidden" readonly="readonly" />
 		 <input type="hidden" readOnly="readOnly" id="writerName" name="writerName" value="${map.get('writerName')}" />
 		 <input type="hidden" readOnly="readOnly" id="updatedWhen" name="updatedWhen" value='${map.get("updatedWhen")}'/>
 		 <input id="pageNum" name="pageNum" value=${map.get('pageNum')} type="hidden" readonly="readonly" />	
