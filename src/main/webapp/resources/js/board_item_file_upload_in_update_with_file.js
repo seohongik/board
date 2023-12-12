@@ -5,9 +5,7 @@
 
 const formDataSend = new FormData();
 const formDataDel = new FormData();
-
-
-let formDataUploadTime = new FormData();
+const formDataUploadTime = new FormData();
 const handler = {
     init() {
 
@@ -54,7 +52,7 @@ const handler = {
 
 
             Array.from(files)
-                .filter(file => file.lastModified !== removeTargetId)
+                .filter(file => file.lastModified != removeTargetId)
                 .forEach(file => {
                     dataTransfer.items.add(file);
                 });

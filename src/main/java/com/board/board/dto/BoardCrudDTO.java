@@ -18,7 +18,7 @@ public class BoardCrudDTO {
     private String writerName;
     private String content;
 
-    private long multiFileId;
+    private int multiFileId;
     private String createdWhen;
     private String updatedWhen;
     private String createdBy;

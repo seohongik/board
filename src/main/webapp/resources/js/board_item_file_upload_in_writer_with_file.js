@@ -46,7 +46,7 @@ const handler = {
 
 
             Array.from(files)
-                .filter(file => file.lastModified !== removeTargetId)
+                .filter(file => file.lastModified != removeTargetId)
                 .forEach(file => {
                     dataTransfer.items.add(file);
                 });
