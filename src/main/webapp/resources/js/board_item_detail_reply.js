@@ -4,7 +4,6 @@ $("#replyBtn").click(function () {
     let writerName = $('#replyWriterName').val();
     let content = $('#replyContent').val();
     let whichBtn = "init"
-
     let data = {
         "id": id,
         "userId": userId,
@@ -12,54 +11,37 @@ $("#replyBtn").click(function () {
         "content": content,
         "whichBtn": whichBtn,
     }
-
     makeAjaxReply("/board/makeReply", "POST", data, "application/json");
-
 });
 
 const unfoldReplyToWriteWindow = document.querySelectorAll(".unfoldReplyWindowBtn");
-
 for (let i = 0; i < unfoldReplyToWriteWindow.length; i++) {
-
     const btn = unfoldReplyToWriteWindow[i];
     btn.onclick = () => {
-
         const initReReply = document.getElementsByClassName("initReReply");
         const replyToReplyHere = document.getElementsByClassName("replyToReplyHere");
-
         //for(let j=0; j<reReplyWindow.length; j++) {
-
         initReReply.item(i).style.display = "block";
-
         //}
-
     };
 }
 
 
 const foldReplyNotToWriteWindowBtn = document.querySelectorAll(".foldReplyWindowBtn");
-
 for (let i = 0; i < foldReplyNotToWriteWindowBtn.length; i++) {
-
     const btn = foldReplyNotToWriteWindowBtn[i];
     btn.onclick = () => {
-
         const reReplyWindow = document.getElementsByClassName("initReReply");
-
         if (reReplyWindow.item(i).style.display === "block") {
-
             reReplyWindow.item(i).style.display = "none"
         }
-
     }
 }
 
 $(".updateReply").each(function (index, item) {
     $($(".updateReply")[index]).click(function () {
-
         $($("input[name=replyResultWriterName]")[index]).removeAttr("readOnly");
         $($("textarea[name=replyResultContent]")[index]).removeAttr("readOnly");
-
         $($("input[name=replyResultWriterName]")[index]).css("border", "");
         $($("textarea[name=replyResultContent]")[index]).css("border", "");
 
