@@ -19,25 +19,21 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class BoardAuthController {
-
-
     public BoardAuthService boardAuthService;
-
+    
     @Autowired
     public void setBoardAuthService(BoardAuthService boardAuthService) {
         this.boardAuthService = boardAuthService;
     }
-
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
-
         return "board_auth_page";
     }
-
+    
     @RequestMapping(value = "/authExecute", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<BoardResDTO> authExecute(@RequestBody BoardAuthDTO boardAuthDtoReqBody, HttpServletRequest request) {
-
         BoardResDTO authResDTO = boardAuthService.boardAuthIdentify(boardAuthDtoReqBody);
 
         if (400 == authResDTO.getCode()) {
@@ -55,12 +51,10 @@ public class BoardAuthController {
     @RequestMapping(value = "/authCreate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<BoardResDTO> authCreate(@RequestBody BoardAuthDTO boardAuthDTO) {
-
         boardAuthService.boardAuthInsertDataWithEncode(boardAuthDTO);
-
         BoardResDTO boardResDTO = new BoardResDTO();
         boardResDTO.setCode(200);
         return new ResponseEntity<>(boardResDTO, HttpStatus.OK);
     }
-
 }
+
