@@ -4,21 +4,15 @@ $(function(){
             "userId":$("#userId").val(),
             "userPw":$("#userPw").val()
         };
-
         makeAjax("/authExecute" , "POST" ,data , "application/json" );
     });
-
-
     $("#authCreate").click(function(){
         let data = {
             "userId":$("#userId").val(),
             "userPw":$("#userPw").val()
         };
-
         makeAjax("/authCreate" , "POST" ,data , "application/json" );
     });
-
-
     let	makeAjax=function (url, type, data, contentType){
         $.ajax({
             url:url,
@@ -38,7 +32,5 @@ $(function(){
                 alert("에러 입니다. 관리자에게 문의하세요"+"admin@mail.com")
             }
         });
-
     } //endOfAjax;
-
 });
